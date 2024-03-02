@@ -1,16 +1,25 @@
 package interrupts;
 
 import game.Globals;
+import game.Level;
 
-public class MainMenu implements Interrupt{
+public class PauseMenu implements Interrupt{
+	
+	private int color = Globals.gfx.loadMemory(Globals.gfx.buildMemoryObject("IntArrayImage", new Object[] {1, 1}));
 	
 	private int index = 0;
 	private int menuSize = 3;
-	
-	private Interrupt interrupt = new FadeIn(60);
-	
-	private boolean startGame = false;
 	private boolean complete = false;
+	private boolean quit = false;
+	
+	private Interrupt interrupt;
+	
+	private Level level;
+	
+	public PauseMenu(Level level) {
+		this.level = level;
+		Globals.gfx.runPlugin("FillColor", new Object[] {color, 0xff000000});
+	}
 
 	@Override
 	public void tick() {
@@ -20,9 +29,9 @@ public class MainMenu implements Interrupt{
 			if (interrupt.complete()) {
 				interrupt.release();
 				interrupt = null;
-				if (startGame) {//complete interrupt only after fade out from choosing level
-					startGame = false;
+				if (quit) {
 					complete = true;
+					level.quit();
 				}
 			}
 			return;
@@ -40,27 +49,25 @@ public class MainMenu implements Interrupt{
 			Globals.inp.setFresh("attack", false);
 			switch(index) {
 			case 0:
-				interrupt = new FadeOut(60);
-				startGame = true;
-				Globals.game.startGame();
+				complete = true;
 				break;
 			case 1:
 				interrupt = new OptionsMenu();
 				break;
 			case 2:
-				Globals.game.stop();
+				interrupt = new FadeOut(60);
+				quit = true;
 			}
 		}
 	}
 
 	@Override
 	public void render() {
+		Globals.gfx.runPlugin("Render", new Object[] {Globals.mainCanvas, color, 0, 0, 0, 0, 1, 1, 256f, 240f, false, false, .5f});
 		
-		Globals.gfx.runPlugin("FillColor", new Object[] {Globals.mainCanvas, 0xff000000});
+		Globals.gfx.runPlugin("RenderFont", new Object[] {Globals.mainCanvas, Globals.font, 16, 0, 1f, "paused"});
 		
-		Globals.gfx.runPlugin("RenderFont", new Object[] {Globals.mainCanvas, Globals.font, 16, 0, 2f, "Main Menu"});
-		
-		Globals.gfx.runPlugin("RenderFont", new Object[] {Globals.mainCanvas, Globals.font, 16, 32, 1f, "play"});
+		Globals.gfx.runPlugin("RenderFont", new Object[] {Globals.mainCanvas, Globals.font, 16, 32, 1f, "resume"});
 		Globals.gfx.runPlugin("RenderFont", new Object[] {Globals.mainCanvas, Globals.font, 16, 48, 1f, "options"});
 		Globals.gfx.runPlugin("RenderFont", new Object[] {Globals.mainCanvas, Globals.font, 16, 64, 1f, "quit"});
 		
@@ -78,8 +85,7 @@ public class MainMenu implements Interrupt{
 
 	@Override
 	public void release() {
-		// TODO Auto-generated method stub
-		
+		Globals.gfx.releaseMemory(color);
 	}
 
 }

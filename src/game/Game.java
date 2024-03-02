@@ -8,6 +8,7 @@ public class Game {
 	private boolean running = true;
 	private Globals globals;
 	private Interrupt interrupt;
+	private boolean startGame = false;
 	
 	public static void main(String[] args) {
 		Game game = new Game();
@@ -57,10 +58,14 @@ public class Game {
 			if (interrupt.complete()) {
 				interrupt.release();
 				interrupt = null;
+				if (startGame) {
+					startGame = false;
+					interrupt = new Level();
+				}
 			}
 		}
 		else {
-			
+			interrupt = new MainMenu();
 		}
 	}
 	
@@ -68,4 +73,7 @@ public class Game {
 		running = false;
 	}
 
+	public void startGame() {
+		startGame = true;
+	}
 }
