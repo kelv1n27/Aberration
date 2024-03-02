@@ -10,6 +10,8 @@ public class Game {
 	private Interrupt interrupt;
 	private boolean startGame = false;
 	
+	private boolean skipMainMenu = true;
+	
 	public static void main(String[] args) {
 		Game game = new Game();
 		game.run();
@@ -17,7 +19,10 @@ public class Game {
 	
 	public Game() {
 		globals = new Globals(this);
-		interrupt = new MainMenu();
+		Globals.wnd.updateWindow();
+		if (!skipMainMenu)
+			interrupt = new MainMenu();
+		else interrupt = new Level();
 	}
 	
 	public void run() {

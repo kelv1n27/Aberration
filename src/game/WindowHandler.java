@@ -25,8 +25,8 @@ public class WindowHandler {
 	private int dimIndex = 2;
 	private boolean fullscreen = false;
 	private int[][] dimensions = {{(int) Toolkit.getDefaultToolkit().getScreenSize().getWidth(), (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight()}, {1920, 1080}, {1536, 864}, {1440, 900}, {1280, 720}, {480, 270}};
-	private final int[] INTERNAL_RATIO = new int[] {1, 1};//must be configured per project
-	private RATIO currentRatio = RATIO.FIT_SCREEN;
+	private final int[] INTERNAL_RATIO = new int[] {256, 240};//must be configured per project
+	private RATIO currentRatio = RATIO.INTERNAL;
 	public static enum RATIO{
 		WIDESCREEN, //12:9
 		INTERNAL,   //whatever internal resolution we use
