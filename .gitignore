@@ -1,0 +1,10 @@
+# So the project doesn't get populated with my IDE crap
+*/.idea/*
+.idea/*
+TRPG.iml
+out/*
+classes/*
+
+# Other random stuff
+res/sprites/tmp/*
+*.DS_Store
