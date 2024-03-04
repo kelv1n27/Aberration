@@ -22,7 +22,10 @@ public class Game {
 		Globals.wnd.updateWindow();
 		if (!skipMainMenu)
 			interrupt = new MainMenu();
-		else interrupt = new Level();
+		else {
+			interrupt = new Level();
+			Globals.level = (Level) interrupt;
+		}
 	}
 	
 	public void run() {
@@ -66,6 +69,7 @@ public class Game {
 				if (startGame) {
 					startGame = false;
 					interrupt = new Level();
+					Globals.level = (Level)interrupt;
 				}
 			}
 		}

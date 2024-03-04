@@ -1,6 +1,7 @@
 package game;
 
 import java.awt.event.MouseEvent;
+import java.util.Random;
 
 import audioHandlerV2_Core.AudioHandler;
 import input.InputHandler;
@@ -17,6 +18,8 @@ public class Globals {
 	public static int mainCanvas;
 	public static int tickCount = 0;
 	public static int font;
+	public static Random rand;
+	public static Level level;
 	
 	public static int enemySoS;
 	public static int enemyMask;
@@ -39,6 +42,7 @@ public class Globals {
 		inp.createInput("escape", new int[] {27});
 		inp.createInput("attack", new int[] {MouseEvent.BUTTON1, 90, 32});
 		aud = new AudioHandler(44100, 16, 1, true, false, 736);
+		rand = new Random();
 	}
 	
 	public static void enemySoS() {

@@ -1,6 +1,10 @@
 package game;
 
-import entities.TestBlob;
+import java.util.ArrayList;
+
+import entities.BlobEnemy;
+import entities.Entity;
+import entities.Player;
 import interrupts.FadeIn;
 import interrupts.Interrupt;
 import interrupts.PauseMenu;
@@ -10,11 +14,14 @@ public class Level implements Interrupt{
 	private Interrupt interrupt = new FadeIn(60);
 	private boolean complete = false;
 	
-	private TestBlob blob = new TestBlob(0);
-	private TestBlob blob1 = new TestBlob(10);
-	private TestBlob blob2 = new TestBlob(20);
-	private TestBlob blob3 = new TestBlob(30);
-	private TestBlob blob4 = new TestBlob(0);
+	public ArrayList<Entity> entities = new ArrayList<Entity>();
+	private ArrayList<Entity> entityAddQueue = new ArrayList<Entity>();
+	private ArrayList<Entity> entityRemoveQueue = new ArrayList<Entity>();
+	private Player player = new Player(120, 150);
+	
+	public Level() {
+		entities.add(new BlobEnemy(100, 100));
+	}
 
 	@Override
 	public void tick() {
@@ -28,6 +35,18 @@ public class Level implements Interrupt{
 			return;
 		}
 		
+		for (Entity e : entities) {
+			e.tick();
+		}
+		player.tick();
+		for (Entity e : entityRemoveQueue) {
+			e.release();
+			entities.remove(e);
+		}
+		entityRemoveQueue.clear();
+		for (Entity e : entityAddQueue) entities.add(e);
+		entityAddQueue.clear();
+		
 		if (Globals.inp.getFresh("escape") && Globals.inp.getPressed("escape")) {
 			Globals.inp.setFresh("escape", false);
 			interrupt = new PauseMenu(this);
@@ -38,13 +57,17 @@ public class Level implements Interrupt{
 	public void render() {
 		Globals.gfx.runPlugin("FillColor", new Object[] {Globals.mainCanvas, 0xffff0000});
 		
-		blob.render(30, 10, 5, 20, 11, 20);
-		blob1.render(40, 10, 5, 20, 10, 35);
-		blob2.render(30, 20, 5, 20, 9, 31);
-		blob3.render(40, 20, 5, 20, 13, 28);
-		blob4.render(35, 15, 5, 20, 10, 30);
+		for (Entity e : entities) {
+			e.render();
+		}
+		player.render();
 		
 		Globals.enemySoS();
+		
+		for (Entity e : entities) {
+			e.renderOutline(0xff00ff00);
+		}
+		player.renderOutline(0xff0000ff);
 		
 		if (interrupt != null) {
 			interrupt.render();
@@ -58,12 +81,20 @@ public class Level implements Interrupt{
 
 	@Override
 	public void release() {
-		// TODO Auto-generated method stub
-		
+		player.release();
+		for (Entity e : entities) e.release();
 	}
 	
 	public void quit() {
 		complete = true;
+	}
+	
+	public void queueAddEntity(Entity e) {
+		entityAddQueue.add(e);
+	}
+	
+	public void queueRemoveEntity(Entity e) {
+		entityRemoveQueue.add(e);
 	}
 
 }
