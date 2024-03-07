@@ -26,11 +26,11 @@ public class Globals {
 	
 	public Globals(Game game) {
 		this.game = game;
-		gfx = new GraphicsCardInterface((short)2, getClass().getProtectionDomain().getCodeSource().getLocation().toString(), "/gfxPlugs/");
+		gfx = new GraphicsCardInterface((short)1, getClass().getProtectionDomain().getCodeSource().getLocation().toString(), "/gfxPlugs/");
 //		gfx.initDebugWindow();
-		gfx.showDebug();
+//		gfx.showDebug();
 		mainCanvas = gfx.loadMemory(gfx.buildMemoryObject("IntArrayImage", new Object[] {256, 240}));
-		font = font = gfx.loadMemory(gfx.buildMemoryObject("BasicFont", new Object[] {"/sprites/font.png", 8, 8, "abcdefghijklmnopqrstuvwxyz.!? >                   1234567890"}));
+		font = font = gfx.loadMemory(gfx.buildMemoryObject("BasicFont", new Object[] {"/sprites/font.png", 8, 8, "abcdefghijklmnopqrstuvwxyz.!? >                   0123456789"}));
 		enemySoS = gfx.loadMemory(gfx.buildMemoryObject("IntArrayImage", new Object[] {256, 240}));
 		enemyMask = gfx.loadMemory(gfx.buildMemoryObject("IntArrayImage", new Object[] {256, 240}));
 		wnd = new WindowHandler(gfx, mainCanvas);
