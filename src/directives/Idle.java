@@ -21,7 +21,7 @@ public class Idle implements Directive {
 	@Override
 	public void tick(Enemy host) {
 		if (behavior == angleBehavior.FACE_PLAYER) {
-			host.setDirection((float)Math.atan2(host.getY() - Globals.level.getPlayer().getY(), host.getX() - Globals.level.getPlayer().getX()));
+			host.setDirection((float)Math.atan2((Globals.level.getPlayer().getY() + (Globals.level.getPlayer().getHeight() >> 1)) - (host.getY() + (host.getHeight() >> 1)), (Globals.level.getPlayer().getX() + (Globals.level.getPlayer().getWidth() >> 1)) - (host.getX() + (host.getWidth() >> 1))));
 		}
 		timer--;
 	}

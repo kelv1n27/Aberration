@@ -7,8 +7,8 @@ import particles.FadeBlob;
 
 public class BlobEnemy extends Enemy{
 	
-	BounceBlob[] blobs;
-	int ticks = 0;
+	private BounceBlob[] blobs;
+	protected int ticks = 0;
 
 	public BlobEnemy(int x, int y, Directive[] directives) {
 		super(x, y, 20, 20, 1, directives);

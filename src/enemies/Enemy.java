@@ -6,7 +6,7 @@ import game.Globals;
 
 public abstract class Enemy extends Entity{
 	
-	private float direction = 0;
+	protected float direction = 0;
 	private Directive[] directives;
 	private int currentDirective = 0;
 

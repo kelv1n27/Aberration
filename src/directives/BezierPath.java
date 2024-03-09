@@ -31,7 +31,9 @@ public class BezierPath implements Directive {
 			host.setDirection(getSlope());
 			break;
 		case FACE_PLAYER:
-			host.setDirection((float)Math.atan2(Globals.level.getPlayer().getY() - host.getY(), Globals.level.getPlayer().getX() - host.getX()));
+			host.setDirection((float)Math.atan2((Globals.level.getPlayer().getY() + (Globals.level.getPlayer().getHeight() >> 1)) - (host.getY() + (host.getHeight() >> 1)), (Globals.level.getPlayer().getX() + (Globals.level.getPlayer().getWidth() >> 1)) - (host.getX() + (host.getWidth() >> 1))));
+			break;
+		case FACE_CONSTANT:
 			break;
 		}
 		timer++;
@@ -73,7 +75,7 @@ public class BezierPath implements Directive {
 //			System.out.println();
 			numPoints--;
 		}
-		return (float)Math.atan2(ptsCopy[0][1]-ptsCopy[1][1], ptsCopy[0][0] - ptsCopy[0][0]);
+		return (float)Math.atan2(ptsCopy[1][1]-ptsCopy[0][1], ptsCopy[1][0] - ptsCopy[0][0]);
 	}
 
 }

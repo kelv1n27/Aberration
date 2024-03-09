@@ -2,6 +2,7 @@ package game;
 
 import java.util.ArrayList;
 
+import events.EventList;
 import directives.BezierPath;
 import directives.Directive;
 import directives.Idle;
@@ -19,6 +20,8 @@ public class Level implements Interrupt{
 	private Interrupt interrupt = new FadeIn(60);
 	private boolean complete = false;
 	
+	public ArrayList<Runnable> postRenders = new ArrayList<Runnable>();
+	
 	public ArrayList<Entity> entities = new ArrayList<Entity>();
 	private ArrayList<Entity> entityAddQueue = new ArrayList<Entity>();
 	private ArrayList<Entity> entityRemoveQueue = new ArrayList<Entity>();
@@ -26,11 +29,13 @@ public class Level implements Interrupt{
 	
 	private int score = 0, loop = 0;
 	
+	private EventList events = new EventList();
+	private int eventTimer = 0;
+	
+	private int landscape = Globals.gfx.loadMemory(Globals.gfx.buildMemoryObject("IntArrayImage", new Object[]{"/sprites/landscape.png"}));
+	
 	public Level() {
-		entities.add(new BlobEnemy(100, 100, new Directive[] {
-				new Spawn(new BlobEnemy(100, 100, new Directive[] {new Idle(200, Idle.angleBehavior.FACE_CONSTANT)})),
-				new BezierPath(100, new float[][] {{1, 1}, {0, 240}, {100, 0}}, BezierPath.angleBehavior.FACE_CONSTANT),
-				new Shoot(Shoot.bulletType.NORMAL, Shoot.directionType.PLAYER_DIR)}));
+
 	}
 
 	@Override
@@ -44,6 +49,9 @@ public class Level implements Interrupt{
 			}
 			return;
 		}
+		//about 13200 ticks before boss maybe?
+		if (eventTimer == 13200) eventTimer = 0;
+		events.checkEvents(eventTimer++);
 		
 		for (Entity e : entities) {
 			e.tick();
@@ -68,6 +76,8 @@ public class Level implements Interrupt{
 		//render the level
 		Globals.gfx.runPlugin("FillColor", new Object[] {Globals.mainCanvas, 0xffff0000});
 		
+		Globals.gfx.runPlugin("Render", new Object[] {Globals.mainCanvas, landscape, 0, 0, 0, 13244 - (eventTimer >> 2), 256, 240, 1f, 1f, false, false, 1f});
+		
 		//render all entities
 		for (Entity e : entities) {
 			e.render();
@@ -76,6 +86,10 @@ public class Level implements Interrupt{
 		
 		//render enemy blobs
 		Globals.enemySoS();
+		
+		//render enemy add-ons
+		for (Runnable r : postRenders) r.run();
+		postRenders.clear();
 
 		//HUD
 		Globals.gfx.runPlugin("RenderFont", new Object[] {Globals.mainCanvas, Globals.font, 0, 0, 1f, "lives"});
@@ -108,6 +122,7 @@ public class Level implements Interrupt{
 
 	@Override
 	public void release() {
+		Globals.gfx.releaseMemory(landscape);
 		player.release();
 		for (Entity e : entities) e.release();
 	}
@@ -130,6 +145,10 @@ public class Level implements Interrupt{
 	
 	public Player getPlayer() {
 		return player;
+	}
+	
+	public int getLoop(){
+		return loop;
 	}
 
 }
