@@ -78,4 +78,9 @@ public class BezierPath implements Directive {
 		return (float)Math.atan2(ptsCopy[1][1]-ptsCopy[0][1], ptsCopy[1][0] - ptsCopy[0][0]);
 	}
 
+	@Override
+	public void reset() {
+		timer = 0;
+	}
+
 }

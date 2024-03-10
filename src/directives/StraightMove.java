@@ -10,13 +10,14 @@ public class StraightMove implements Directive {
 	}
 	
 	private float speed, customAngle = 0;
-	private int timer;
+	private int timer, initialTimer;
 	private angleBehavior behavior;
 	
 	public StraightMove(int timer, float speed, angleBehavior behavior) {
 		this.timer = timer;
 		this.speed = speed;
 		this.behavior = behavior;
+		initialTimer = timer;
 	}
 	
 	public StraightMove(int timer, float speed, angleBehavior behavior, float customAngle) {
@@ -24,6 +25,7 @@ public class StraightMove implements Directive {
 		this.speed = speed;
 		this.behavior = behavior;
 		this.customAngle = customAngle;
+		initialTimer = timer;
 	}
 
 	@Override
@@ -42,6 +44,11 @@ public class StraightMove implements Directive {
 	@Override
 	public boolean complete() {
 		return timer < 0;
+	}
+
+	@Override
+	public void reset() {
+		timer = initialTimer;
 	}
 
 }

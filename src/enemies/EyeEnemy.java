@@ -8,7 +8,7 @@ public class EyeEnemy extends BlobEnemy{
 	private int eye = Globals.gfx.loadMemory(Globals.gfx.buildMemoryObject("IntArrayImage", new Object[]{"/sprites/eye.png"}));
 	
 	public EyeEnemy(int x, int y, Directive[] directives) {
-		super(x, y, directives);
+		super(x, y, 2, 200, directives);
 	}
 	
 	@Override

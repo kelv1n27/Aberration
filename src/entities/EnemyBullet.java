@@ -17,7 +17,7 @@ public class EnemyBullet extends Entity{
 	public void tick() {
 		translate((float)Math.cos(direction) * speed, (float)Math.sin(direction) * speed);
 		if (intersects(Globals.level.getPlayer())) {
-			//hurt the player
+			Globals.level.getPlayer().hurt();
 		}
 		if(y < 0) Globals.level.queueRemoveEntity(this);
 	}

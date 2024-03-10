@@ -57,4 +57,7 @@ public class Shoot implements Directive {
 		return true;
 	}
 
+	@Override
+	public void reset() {}
+
 }

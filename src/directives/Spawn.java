@@ -22,4 +22,7 @@ public class Spawn implements Directive {
 		return true;
 	}
 
+	@Override
+	public void reset() {}
+
 }

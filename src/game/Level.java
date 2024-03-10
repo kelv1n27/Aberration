@@ -2,16 +2,12 @@ package game;
 
 import java.util.ArrayList;
 
-import events.EventList;
-import directives.BezierPath;
-import directives.Directive;
-import directives.Idle;
-import directives.Shoot;
-import directives.Spawn;
-import enemies.BlobEnemy;
+import enemies.Enemy;
 import entities.Entity;
 import entities.Player;
+import events.EventList;
 import interrupts.FadeIn;
+import interrupts.GameOver;
 import interrupts.Interrupt;
 import interrupts.PauseMenu;
 
@@ -27,7 +23,7 @@ public class Level implements Interrupt{
 	private ArrayList<Entity> entityRemoveQueue = new ArrayList<Entity>();
 	private Player player = new Player(120, 150);
 	
-	private int score = 0, loop = 0;
+	private int score = 0, loop = 2;
 	
 	private EventList events = new EventList();
 	private int eventTimer = 0;
@@ -58,7 +54,9 @@ public class Level implements Interrupt{
 		}
 		player.tick();
 		for (Entity e : entityRemoveQueue) {
-			e.release();
+			//e.release();
+			//aaaaaaaaaaaaaargh
+			if (e instanceof Enemy) ((Enemy) e).resetDirectives();
 			entities.remove(e);
 		}
 		entityRemoveQueue.clear();
@@ -149,6 +147,35 @@ public class Level implements Interrupt{
 	
 	public int getLoop(){
 		return loop;
+	}
+	
+	public void gameOver() {
+		interrupt = new GameOver(this);
+	}
+	
+	public void reset() {
+		score = 0;
+		loop = 0;
+		eventTimer = 0;
+//		events.reset();
+		//nevermind, i give up
+		events = new EventList();
+		player.release();
+		player = new Player(120, 150);
+//		for (Entity e : entities) {
+//			//e.release();
+//			//aaaaaaaaaaaaaargh
+//			if (e instanceof Enemy) ((Enemy) e).resetDirectives();
+//		}
+		entities.clear();
+//		for (Entity e : entityAddQueue) {
+//			//e.release();
+//			//aaaaaaaaaaaaaargh
+//			if (e instanceof Enemy) ((Enemy) e).resetDirectives();
+//		}
+		entityAddQueue.clear();
+		entityRemoveQueue.clear();
+		
 	}
 
 }

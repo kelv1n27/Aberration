@@ -8,7 +8,7 @@ public class MouthEnemy extends BlobEnemy{
 	private int mouth = Globals.gfx.loadMemory(Globals.gfx.buildMemoryObject("IntArrayImage", new Object[]{"/sprites/mouth.png"}));
 
 	public MouthEnemy(int x, int y, Directive[] directives) {
-		super(x, y, directives);
+		super(x, y, 5, 500, directives);
 	}
 	
 	@Override

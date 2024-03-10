@@ -9,9 +9,20 @@ public class BlobEnemy extends Enemy{
 	
 	private BounceBlob[] blobs;
 	protected int ticks = 0;
+	protected int score = 100;
 
 	public BlobEnemy(int x, int y, Directive[] directives) {
 		super(x, y, 20, 20, 1, directives);
+		blobs = new BounceBlob[] {	new BounceBlob(x + 6,	y + 6,	5, 	15,	10 + Globals.rand.nextInt(6) - 3,	28 + Globals.rand.nextInt(10) - 5,	0),
+									new BounceBlob(x + 13, 	y + 6, 	5, 	15,	10 + Globals.rand.nextInt(6) - 3,	28 + Globals.rand.nextInt(10) - 5,	10),
+									new BounceBlob(x + 6, 	y + 13,	5,	15,	10 + Globals.rand.nextInt(6) - 3,	28 + Globals.rand.nextInt(10) - 5, 20),
+									new BounceBlob(x + 13, 	y + 13,	5,	15,	10 + Globals.rand.nextInt(3) - 3,	28 + Globals.rand.nextInt(10) - 5, 30),
+									new BounceBlob(x + 9, 	y + 9, 	5,	15,	10 + Globals.rand.nextInt(3) - 3,	28 + Globals.rand.nextInt(10) - 5, 0)};
+	}
+	
+	public BlobEnemy(int x, int y, int health, int score, Directive[] directives) {
+		super(x, y, 20, 20, health, directives);
+		this.score = score;
 		blobs = new BounceBlob[] {	new BounceBlob(x + 6,	y + 6,	5, 	15,	10 + Globals.rand.nextInt(6) - 3,	28 + Globals.rand.nextInt(10) - 5,	0),
 									new BounceBlob(x + 13, 	y + 6, 	5, 	15,	10 + Globals.rand.nextInt(6) - 3,	28 + Globals.rand.nextInt(10) - 5,	10),
 									new BounceBlob(x + 6, 	y + 13,	5,	15,	10 + Globals.rand.nextInt(6) - 3,	28 + Globals.rand.nextInt(10) - 5, 20),
@@ -26,6 +37,7 @@ public class BlobEnemy extends Enemy{
 			b.tick();
 		}
 		if (ticks++ %30 == 0) Globals.level.queueAddEntity(new FadeBlob(x + (width >> 1), y + (height >> 1), 30, 5, Globals.rand.nextFloat() * 6.28f, 1));
+		if (intersects(Globals.level.getPlayer())) Globals.level.getPlayer().hurt();
 //		System.out.println(x);
 	}
 
@@ -46,7 +58,7 @@ public class BlobEnemy extends Enemy{
 	@Override
 	public void hurt() {
 		if (--health <= 0) {
-			Globals.level.addScore(100);
+			Globals.level.addScore(score);
 			Globals.level.queueRemoveEntity(this);
 			for (int i = 0; i < 5; i++) {
 				Globals.level.queueAddEntity(new FadeBlob(
