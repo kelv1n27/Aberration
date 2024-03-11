@@ -199,6 +199,8 @@ public class EventList {
 				new Spawn(new BlobEnemy(236, 20, new Directive[] {new Idle(1, Idle.angleBehavior.FACE_PLAYER), new StraightMove(250, 1, StraightMove.angleBehavior.MOVE_HOST_DIR)})),
 				new BezierPath(120, new float[][] {{236, 20}, {260, -20}}, BezierPath.angleBehavior.FACE_CONSTANT)
 				})));
+		
+		events.add(new BossEvent(6200));
 	}
 	
 	//assumes events list is sorted

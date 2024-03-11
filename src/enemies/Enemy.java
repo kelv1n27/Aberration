@@ -9,6 +9,7 @@ public abstract class Enemy extends Entity{
 	protected float direction = 0;
 	private Directive[] directives;
 	private int currentDirective = 0;
+	private boolean resetSkip = false;
 	private float initialx, initialy;
 	private int initialHealth;
 
@@ -23,10 +24,11 @@ public abstract class Enemy extends Entity{
 	@Override
 	public void tick() {
 		directives[currentDirective].tick(this);
-		if (directives[currentDirective].complete()) {
+		if (directives[currentDirective].complete() && !resetSkip) {
 			currentDirective++;
 			if (currentDirective >= directives.length) Globals.level.queueRemoveEntity(this);
 		}
+		resetSkip = false;
 	}
 	
 	public float getDirection() {
@@ -39,10 +41,15 @@ public abstract class Enemy extends Entity{
 	
 	public void resetDirectives() {
 		currentDirective = 0;
-		x = initialx;
-		y = initialy;
+//		x = initialx;
+//		y = initialy;
 		for (Directive d : directives) d.reset();
-		health = initialHealth;
+//		health = initialHealth;
+	}
+	
+	public void setDirective(int index) {
+		currentDirective = index;
+		resetSkip = true;
 	}
 
 }

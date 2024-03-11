@@ -1,5 +1,6 @@
 package interrupts;
 
+import audioHandlerV2_Processors.SampleProcessor;
 import game.Globals;
 
 public class MainMenu implements Interrupt{
@@ -11,6 +12,13 @@ public class MainMenu implements Interrupt{
 	
 	private boolean startGame = false;
 	private boolean complete = false;
+	
+	private SampleProcessor bgm = new SampleProcessor("/sfx/Aberration - Track 01 (Title Screen).wav");
+	
+	public MainMenu() {
+		Globals.bgm.addProcessor(bgm, 0);
+		bgm.togglePause(false);
+	}
 
 	@Override
 	public void tick() {
@@ -78,8 +86,8 @@ public class MainMenu implements Interrupt{
 
 	@Override
 	public void release() {
-		// TODO Auto-generated method stub
-		
+		bgm.dispose();
+		Globals.bgm.removeProcessor(bgm);
 	}
 
 }

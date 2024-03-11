@@ -1,5 +1,6 @@
 package entities;
 
+import enemies.Enemy;
 import game.Globals;
 
 public class Bullet extends Entity{
@@ -15,7 +16,8 @@ public class Bullet extends Entity{
 	public void tick() {
 		translate(0, -3);
 		for (Entity e : Globals.level.entities) {
-			if (intersects(e) && e != this) {
+			//instanceof is bad practice but i dont care anymnoer
+			if (intersects(e) && e != this && e instanceof Enemy) {
 				e.hurt();
 				Globals.level.queueRemoveEntity(this);
 			}

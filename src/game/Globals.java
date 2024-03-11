@@ -4,6 +4,8 @@ import java.awt.event.MouseEvent;
 import java.util.Random;
 
 import audioHandlerV2_Core.AudioHandler;
+import audioHandlerV2_Core.AudioWorker;
+import audioHandlerV2_Processors.VolumeProcessor;
 import input.InputHandler;
 import tbh.gfxInterface.GraphicsCardInterface;
 
@@ -13,7 +15,14 @@ public class Globals {
 	public static GraphicsCardInterface gfx;
 	public static WindowHandler wnd;
 	public static InputHandler inp;
+	
 	public static AudioHandler aud;
+	public static AudioWorker sfx;
+	public static AudioWorker bgm;
+	public static float sfxVolume = .5f;
+	public static float bgmVolume = .5f;
+	public static VolumeProcessor sfxVol = new VolumeProcessor();
+	public static VolumeProcessor bgmVol = new VolumeProcessor();
 	
 	public static int mainCanvas;
 	public static int tickCount = 0;
@@ -30,7 +39,7 @@ public class Globals {
 //		gfx.initDebugWindow();
 //		gfx.showDebug();
 		mainCanvas = gfx.loadMemory(gfx.buildMemoryObject("IntArrayImage", new Object[] {256, 240}));
-		font = font = gfx.loadMemory(gfx.buildMemoryObject("BasicFont", new Object[] {"/sprites/font.png", 8, 8, "abcdefghijklmnopqrstuvwxyz.!? >                   0123456789"}));
+		font = font = gfx.loadMemory(gfx.buildMemoryObject("BasicFont", new Object[] {"/sprites/font.png", 8, 8, "abcdefghijklmnopqrstuvwxyz.!? >:                  0123456789"}));
 		enemySoS = gfx.loadMemory(gfx.buildMemoryObject("IntArrayImage", new Object[] {256, 240}));
 		enemyMask = gfx.loadMemory(gfx.buildMemoryObject("IntArrayImage", new Object[] {256, 240}));
 		wnd = new WindowHandler(gfx, mainCanvas);
@@ -42,6 +51,14 @@ public class Globals {
 		inp.createInput("escape", new int[] {27});
 		inp.createInput("attack", new int[] {MouseEvent.BUTTON1, 90, 32});
 		aud = new AudioHandler(44100, 16, 1, true, false, 736);
+//		aud.getMaster().setVisible(true);
+		aud.start();
+		sfx = aud.getMaster().addWorker("sfx");
+		bgm = aud.getMaster().addWorker("bgm");
+		sfx.addProcessor(sfxVol);
+		bgm.addProcessor(bgmVol);
+		sfxVol.changeVol(sfxVolume);
+		bgmVol.changeVol(bgmVolume);
 		rand = new Random();
 	}
 	

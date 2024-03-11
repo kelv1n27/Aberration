@@ -11,7 +11,7 @@ public class BlobEnemy extends Enemy{
 	protected int ticks = 0;
 	protected int score = 100;
 
-	public BlobEnemy(int x, int y, Directive[] directives) {
+	public BlobEnemy(float x, float y, Directive[] directives) {
 		super(x, y, 20, 20, 1, directives);
 		blobs = new BounceBlob[] {	new BounceBlob(x + 6,	y + 6,	5, 	15,	10 + Globals.rand.nextInt(6) - 3,	28 + Globals.rand.nextInt(10) - 5,	0),
 									new BounceBlob(x + 13, 	y + 6, 	5, 	15,	10 + Globals.rand.nextInt(6) - 3,	28 + Globals.rand.nextInt(10) - 5,	10),
@@ -20,7 +20,7 @@ public class BlobEnemy extends Enemy{
 									new BounceBlob(x + 9, 	y + 9, 	5,	15,	10 + Globals.rand.nextInt(3) - 3,	28 + Globals.rand.nextInt(10) - 5, 0)};
 	}
 	
-	public BlobEnemy(int x, int y, int health, int score, Directive[] directives) {
+	public BlobEnemy(float x, float y, int health, int score, Directive[] directives) {
 		super(x, y, 20, 20, health, directives);
 		this.score = score;
 		blobs = new BounceBlob[] {	new BounceBlob(x + 6,	y + 6,	5, 	15,	10 + Globals.rand.nextInt(6) - 3,	28 + Globals.rand.nextInt(10) - 5,	0),

@@ -23,10 +23,14 @@ public class OptionsMenu implements Interrupt{
 			Globals.inp.setFresh("attack", false);
 			switch(index) {
 			case 0:
-				
+				Globals.sfxVolume += .1;
+				if ((int)(Globals.sfxVolume * 10) > 10) Globals.sfxVolume = 0;
+				Globals.sfxVol.changeVol(Globals.sfxVolume);
 				break;
 			case 1:
-			
+				Globals.bgmVolume += .1;
+				if ((int)(Globals.bgmVolume * 10) > 10) Globals.bgmVolume = 0;
+				Globals.bgmVol.changeVol(Globals.bgmVolume);
 				break;
 			case 2:
 				
@@ -46,8 +50,8 @@ public class OptionsMenu implements Interrupt{
 		
 		Globals.gfx.runPlugin("RenderFont", new Object[] {Globals.mainCanvas, Globals.font, 16, 0, 2f, "options Menu"});
 		
-		Globals.gfx.runPlugin("RenderFont", new Object[] {Globals.mainCanvas, Globals.font, 16, 32, 1f, "sfxVol"});
-		Globals.gfx.runPlugin("RenderFont", new Object[] {Globals.mainCanvas, Globals.font, 16, 48, 1f, "bgm vol"});
+		Globals.gfx.runPlugin("RenderFont", new Object[] {Globals.mainCanvas, Globals.font, 16, 32, 1f, "sfxVol: " + (int)(Globals.sfxVolume * 10)});
+		Globals.gfx.runPlugin("RenderFont", new Object[] {Globals.mainCanvas, Globals.font, 16, 48, 1f, "bgm vol: " + (int)(Globals.bgmVolume * 10)});
 		Globals.gfx.runPlugin("RenderFont", new Object[] {Globals.mainCanvas, Globals.font, 16, 64, 1f, "output res"});
 		Globals.gfx.runPlugin("RenderFont", new Object[] {Globals.mainCanvas, Globals.font, 16, 80, 1f, "fullscreen"});
 		Globals.gfx.runPlugin("RenderFont", new Object[] {Globals.mainCanvas, Globals.font, 16, 96, 1f, "back"});
