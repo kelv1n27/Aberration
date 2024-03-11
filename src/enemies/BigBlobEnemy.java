@@ -65,6 +65,23 @@ public class BigBlobEnemy extends Enemy{
 		}
 	}
 	
+	@Override
+	public void translate(float x, float y) {
+		super.translate(x, y);
+		for (BounceBlob b : blobs) b.translate(x, y);
+	}
+	
+	@Override
+	public void teleport(float x, float y) {
+		super.teleport(x, y);
+		blobs[0].teleport(x + 20,	y + 20);
+		blobs[1].teleport(x + 15,	y + 5);
+		blobs[2].teleport(x + 5,	y + 15);
+		blobs[3].teleport(x + 10,	y + 25);
+		blobs[4].teleport(x + 30,	y + 15);
+		blobs[5].teleport(x + 28,	y + 25);
+	}
+	
 	private void initBlobs() {
 		blobs = new BounceBlob[] {
 				new BounceBlob(x + 20,	y + 20,	20,	30,	10,	40,	0),

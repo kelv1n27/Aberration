@@ -35,7 +35,6 @@ public class Shoot implements Directive {
 
 	@Override
 	public void tick(Enemy host) {
-		System.out.println("in shoot");
 		float usedDirection = 0;
 		switch(dirType) {
 		case HOST_DIR:

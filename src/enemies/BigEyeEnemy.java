@@ -8,7 +8,7 @@ public class BigEyeEnemy extends BigBlobEnemy{
 	private int eye = Globals.gfx.loadMemory(Globals.gfx.buildMemoryObject("IntArrayImage", new Object[]{"/sprites/big eye.png"}));
 
 	public BigEyeEnemy(float x, float y, int health, int score, Directive[] directives) {
-		super(x, y, health, score, directives);
+		super(x, y, 1, score, directives);
 	}
 
 	@Override

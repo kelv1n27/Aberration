@@ -3,17 +3,18 @@ package game;
 import java.util.ArrayList;
 
 import audioHandlerV2_Processors.SampleProcessor;
+import directives.BezierPath;
 import directives.Directive;
-import directives.Idle;
 import directives.Loop;
 import directives.Shoot;
 import enemies.BigEyeEnemy;
+import enemies.BlobEnemy;
 import enemies.Enemy;
-import entities.EnemyBullet;
 import entities.Entity;
 import entities.Player;
 import events.EventList;
 import interrupts.BossIntro;
+import interrupts.BossSplat;
 import interrupts.FadeIn;
 import interrupts.GameOver;
 import interrupts.Interrupt;
@@ -168,6 +169,11 @@ public class Level implements Interrupt{
 	
 	public void queueRemoveEntity(Entity e) {
 		entityRemoveQueue.add(e);
+		if (boss != null & e.equals(boss)) {
+			System.out.println("hi");
+			concurrentInterrupt = new BossSplat(e.getX(), e.getY());
+			boss = null;
+		}
 	}
 	
 	public void addScore(int score) {
@@ -224,14 +230,59 @@ public class Level implements Interrupt{
 		bgm.togglePause(true);
 		bossbgm.resetSample();
 		bossbgm.togglePause(false);
+		Enemy newBoss;
 		switch(loop) {
 		case 0:
-			entities.add(new BigEyeEnemy(108, -10, 50, 10000, new Directive[] {new Shoot(Shoot.bulletType.NORMAL, Shoot.directionType.HOST_DIR), new Idle(60, Idle.angleBehavior.FACE_CONSTANT), new Loop(0, 3)}));
+			newBoss = new BigEyeEnemy(108, -50, 50, 10000, new Directive[] {
+					new BezierPath(30, new float[][] {{108, -50}, {108, 10}}, BezierPath.angleBehavior.FACE_PLAYER),
+					new BezierPath(80, new float[][] {{108, 10}, {44, 10}}, BezierPath.angleBehavior.FACE_PLAYER),
+					new Shoot(Shoot.bulletType.TRIPLET, Shoot.directionType.HOST_DIR), 
+					new BezierPath(80, new float[][] {{44, 10}, {0, 10}}, BezierPath.angleBehavior.FACE_PLAYER),
+					new Shoot(Shoot.bulletType.TRIPLET, Shoot.directionType.HOST_DIR),
+					new BezierPath(80, new float[][] {{0, 10}, {44, 10}}, BezierPath.angleBehavior.FACE_PLAYER),
+					new Shoot(Shoot.bulletType.TRIPLET, Shoot.directionType.HOST_DIR),
+					new BezierPath(80, new float[][] {{44, 10}, {108, 10}}, BezierPath.angleBehavior.FACE_PLAYER),
+					new Shoot(Shoot.bulletType.TRIPLET, Shoot.directionType.HOST_DIR),
+					new BezierPath(80, new float[][] {{108, 10}, {172, 10}}, BezierPath.angleBehavior.FACE_PLAYER),
+					new Shoot(Shoot.bulletType.TRIPLET, Shoot.directionType.HOST_DIR),
+					new BezierPath(80, new float[][] {{172, 10}, {216, 10}}, BezierPath.angleBehavior.FACE_PLAYER),
+					new Shoot(Shoot.bulletType.TRIPLET, Shoot.directionType.HOST_DIR),
+					new BezierPath(80, new float[][] {{216, 10}, {172, 10}}, BezierPath.angleBehavior.FACE_PLAYER),
+					new Shoot(Shoot.bulletType.TRIPLET, Shoot.directionType.HOST_DIR),
+					new BezierPath(80, new float[][] {{172, 10}, {108, 10}}, BezierPath.angleBehavior.FACE_PLAYER),
+					new Shoot(Shoot.bulletType.TRIPLET, Shoot.directionType.HOST_DIR),
+//					new Idle(60, Idle.angleBehavior.FACE_CONSTANT),
+					new Loop(1, 3)});
+			break;
+		case 1:
+			newBoss = new BigEyeEnemy(108, -50, 50, 10000, new Directive[] {
+					new BezierPath(30, new float[][] {{108, -50}, {108, 10}}, BezierPath.angleBehavior.FACE_PLAYER),
+					new BezierPath(80, new float[][] {{108, 10}, {44, 10}}, BezierPath.angleBehavior.FACE_PLAYER),
+					new Shoot(Shoot.bulletType.TRIPLET, Shoot.directionType.HOST_DIR), 
+					new BezierPath(80, new float[][] {{44, 10}, {0, 10}}, BezierPath.angleBehavior.FACE_PLAYER),
+					new Shoot(Shoot.bulletType.TRIPLET, Shoot.directionType.HOST_DIR),
+					new BezierPath(80, new float[][] {{0, 10}, {44, 10}}, BezierPath.angleBehavior.FACE_PLAYER),
+					new Shoot(Shoot.bulletType.TRIPLET, Shoot.directionType.HOST_DIR),
+					new BezierPath(80, new float[][] {{44, 10}, {108, 10}}, BezierPath.angleBehavior.FACE_PLAYER),
+					new Shoot(Shoot.bulletType.TRIPLET, Shoot.directionType.HOST_DIR),
+					new BezierPath(80, new float[][] {{108, 10}, {172, 10}}, BezierPath.angleBehavior.FACE_PLAYER),
+					new Shoot(Shoot.bulletType.TRIPLET, Shoot.directionType.HOST_DIR),
+					new BezierPath(80, new float[][] {{172, 10}, {216, 10}}, BezierPath.angleBehavior.FACE_PLAYER),
+					new Shoot(Shoot.bulletType.TRIPLET, Shoot.directionType.HOST_DIR),
+					new BezierPath(80, new float[][] {{216, 10}, {172, 10}}, BezierPath.angleBehavior.FACE_PLAYER),
+					new Shoot(Shoot.bulletType.TRIPLET, Shoot.directionType.HOST_DIR),
+					new BezierPath(80, new float[][] {{172, 10}, {108, 10}}, BezierPath.angleBehavior.FACE_PLAYER),
+					new Shoot(Shoot.bulletType.TRIPLET, Shoot.directionType.HOST_DIR),
+//					new Idle(60, Idle.angleBehavior.FACE_CONSTANT),
+					new Loop(1, 3)});
 			break;
 		default:
-			
+			newBoss = new BlobEnemy(-10, -10, new Directive[] {});
 			break;
 		}
+		
+		entities.add(newBoss);
+		boss = newBoss;
 	}
 
 }

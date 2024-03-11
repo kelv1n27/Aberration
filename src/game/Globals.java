@@ -52,7 +52,7 @@ public class Globals {
 		inp.createInput("attack", new int[] {MouseEvent.BUTTON1, 90, 32});
 		aud = new AudioHandler(44100, 16, 1, true, false, 736);
 //		aud.getMaster().setVisible(true);
-		aud.start();
+//		aud.start();
 		sfx = aud.getMaster().addWorker("sfx");
 		bgm = aud.getMaster().addWorker("bgm");
 		sfx.addProcessor(sfxVol);
