@@ -35,6 +35,7 @@ public class Shoot implements Directive {
 
 	@Override
 	public void tick(Enemy host) {
+		Globals.createManagedSfx("/sfx/Aberration - Track 07 (enemy shoot).wav", 10);
 		float usedDirection = 0;
 		switch(dirType) {
 		case HOST_DIR:

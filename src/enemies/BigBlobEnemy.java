@@ -51,6 +51,7 @@ public class BigBlobEnemy extends Enemy{
 		if (--health <= 0) {
 			Globals.level.addScore(score);
 			Globals.level.queueRemoveEntity(this);
+			Globals.createManagedSfx("/sfx/Aberration - Track 10 (enemy death).wav", 10);
 			// below needs work
 			for (int i = 0; i < 5; i++) {
 				Globals.level.queueAddEntity(new FadeBlob(

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import audioHandlerV2_Processors.SampleProcessor;
 import directives.BezierPath;
 import directives.Directive;
+import directives.Idle;
 import directives.Loop;
 import directives.Shoot;
 import enemies.BigEyeEnemy;
@@ -33,7 +34,7 @@ public class Level implements Interrupt{
 	private ArrayList<Entity> entityRemoveQueue = new ArrayList<Entity>();
 	private Player player = new Player(120, 150);
 	
-	private int score = 0, loop = 0;
+	private int score = 0, loop = 2;
 	
 	private EventList events = new EventList();
 	private int eventTimer = 5900;
@@ -45,6 +46,8 @@ public class Level implements Interrupt{
 	private SampleProcessor bossbgm = new SampleProcessor("/sfx/Aberration - Track 03 (Boss).wav");
 	
 	private SampleProcessor bgm = new SampleProcessor("/sfx/Aberration - Track 02 (Flight).wav");
+	
+	private int lastLife = 0;
 	
 	public Level() {
 		Globals.bgm.addProcessor(bgm, 0);
@@ -154,9 +157,13 @@ public class Level implements Interrupt{
 	public void release() {
 		Globals.gfx.releaseMemory(landscape);
 		player.release();
-		for (Entity e : entities) e.release();
-		Globals.bgm.remove(bgm);
+		for (Entity e : entities) {
+			e.release();
+		}
+		Globals.bgm.removeProcessor(bgm);
 		bgm.dispose();
+		Globals.bgm.removeProcessor(bossbgm);
+		bossbgm.dispose();
 	}
 	
 	public void quit() {
@@ -170,7 +177,6 @@ public class Level implements Interrupt{
 	public void queueRemoveEntity(Entity e) {
 		entityRemoveQueue.add(e);
 		if (boss != null & e.equals(boss)) {
-			System.out.println("hi");
 			concurrentInterrupt = new BossSplat(e.getX(), e.getY());
 			boss = null;
 		}
@@ -178,6 +184,11 @@ public class Level implements Interrupt{
 	
 	public void addScore(int score) {
 		this.score += score;
+		if (this.score >= lastLife + 10000) {
+			player.getLife();
+			lastLife += 10000;
+			Globals.createManagedSfx("/sfx/Aberration - Track 13 (powerup).wav", 30);
+		}
 	}
 	
 	public Player getPlayer() {
@@ -196,6 +207,8 @@ public class Level implements Interrupt{
 	public void reset() {
 		bgm.resetSample();
 		bgm.togglePause(false);
+		bossbgm.resetSample();
+		bossbgm.togglePause(true);
 		score = 0;
 		loop = 0;
 		eventTimer = 0;
@@ -219,6 +232,31 @@ public class Level implements Interrupt{
 		entityRemoveQueue.clear();
 		
 	}
+	
+	public void loopReset() {
+		bgm.resetSample();
+		bgm.togglePause(false);
+		bossbgm.resetSample();
+		bossbgm.togglePause(true);
+		eventTimer = 0;
+//		events.reset();
+		//nevermind, i give up
+		events = new EventList();
+		for (Entity e : entities) {
+			//e.release();
+			//aaaaaaaaaaaaaargh
+//			if (e instanceof Enemy) ((Enemy) e).resetDirectives();
+		}
+		entities.clear();
+		for (Entity e : entityAddQueue) {
+			//e.release();
+			//aaaaaaaaaaaaaargh
+//			if (e instanceof Enemy) ((Enemy) e).resetDirectives();
+		}
+		entityAddQueue.clear();
+		entityRemoveQueue.clear();
+		loop++;
+	}
 
 	public void startBossIntro() {
 //		entities.add(new BigEyeEnemy(108, 30, 1, new Directive[] {new Idle(6000, Idle.angleBehavior.FACE_PLAYER)}));
@@ -233,7 +271,7 @@ public class Level implements Interrupt{
 		Enemy newBoss;
 		switch(loop) {
 		case 0:
-			newBoss = new BigEyeEnemy(108, -50, 50, 10000, new Directive[] {
+			newBoss = new BigEyeEnemy(108, -50, 50, 3000, new Directive[] {
 					new BezierPath(30, new float[][] {{108, -50}, {108, 10}}, BezierPath.angleBehavior.FACE_PLAYER),
 					new BezierPath(80, new float[][] {{108, 10}, {44, 10}}, BezierPath.angleBehavior.FACE_PLAYER),
 					new Shoot(Shoot.bulletType.TRIPLET, Shoot.directionType.HOST_DIR), 
@@ -255,7 +293,7 @@ public class Level implements Interrupt{
 					new Loop(1, 3)});
 			break;
 		case 1:
-			newBoss = new BigEyeEnemy(108, -50, 50, 10000, new Directive[] {
+			newBoss = new BigEyeEnemy(108, -50, 60, 3000, new Directive[] {
 					new BezierPath(30, new float[][] {{108, -50}, {108, 10}}, BezierPath.angleBehavior.FACE_PLAYER),
 					new BezierPath(80, new float[][] {{108, 10}, {44, 10}}, BezierPath.angleBehavior.FACE_PLAYER),
 					new Shoot(Shoot.bulletType.TRIPLET, Shoot.directionType.HOST_DIR), 
@@ -272,6 +310,54 @@ public class Level implements Interrupt{
 					new BezierPath(80, new float[][] {{216, 10}, {172, 10}}, BezierPath.angleBehavior.FACE_PLAYER),
 					new Shoot(Shoot.bulletType.TRIPLET, Shoot.directionType.HOST_DIR),
 					new BezierPath(80, new float[][] {{172, 10}, {108, 10}}, BezierPath.angleBehavior.FACE_PLAYER),
+					new Shoot(Shoot.bulletType.TRIPLET, Shoot.directionType.HOST_DIR),
+//					new Idle(60, Idle.angleBehavior.FACE_CONSTANT),
+					new Loop(1, 3)});
+			break;
+		case 2:
+			newBoss = new BigEyeEnemy(108, -50, 60, 5000, new Directive[] {
+					new BezierPath(30, new float[][] {{108, -50}, {108, 10}}, BezierPath.angleBehavior.FACE_PLAYER),
+					new BezierPath(80, new float[][] {{108, 10}, {44, 10}}, BezierPath.angleBehavior.FACE_PLAYER),
+					new Shoot(Shoot.bulletType.FAN, Shoot.directionType.HOST_DIR),
+					new BezierPath(80, new float[][] {{44, 10}, {0, 10}}, BezierPath.angleBehavior.FACE_PLAYER),
+					new Shoot(Shoot.bulletType.TRIPLET, Shoot.directionType.HOST_DIR),
+					new BezierPath(80, new float[][] {{0, 10}, {44, 10}}, BezierPath.angleBehavior.FACE_PLAYER),
+					new Shoot(Shoot.bulletType.FAN, Shoot.directionType.HOST_DIR),
+					new BezierPath(80, new float[][] {{44, 10}, {108, 10}}, BezierPath.angleBehavior.FACE_PLAYER),
+					new Shoot(Shoot.bulletType.TRIPLET, Shoot.directionType.HOST_DIR),
+					new BezierPath(80, new float[][] {{108, 10}, {172, 10}}, BezierPath.angleBehavior.FACE_PLAYER),
+					new Shoot(Shoot.bulletType.FAN, Shoot.directionType.HOST_DIR),
+					new BezierPath(80, new float[][] {{172, 10}, {216, 10}}, BezierPath.angleBehavior.FACE_PLAYER),
+					new Shoot(Shoot.bulletType.TRIPLET, Shoot.directionType.HOST_DIR),
+					new BezierPath(80, new float[][] {{216, 10}, {172, 10}}, BezierPath.angleBehavior.FACE_PLAYER),
+					new Shoot(Shoot.bulletType.FAN, Shoot.directionType.HOST_DIR),
+					new BezierPath(80, new float[][] {{172, 10}, {108, 10}}, BezierPath.angleBehavior.FACE_PLAYER),
+					new Shoot(Shoot.bulletType.FAN, Shoot.directionType.HOST_DIR),
+					new Idle(20, Idle.angleBehavior.FACE_PLAYER),
+					new Shoot(Shoot.bulletType.TRIPLET, Shoot.directionType.HOST_DIR),
+//					new Idle(60, Idle.angleBehavior.FACE_CONSTANT),
+					new Loop(1, 3)});
+			break;
+		case 3:
+			newBoss = new BigEyeEnemy(108, -50, 75, 5000, new Directive[] {
+					new BezierPath(30, new float[][] {{108, -50}, {108, 10}}, BezierPath.angleBehavior.FACE_PLAYER),
+					new BezierPath(80, new float[][] {{108, 10}, {44, 10}}, BezierPath.angleBehavior.FACE_PLAYER),
+					new Shoot(Shoot.bulletType.FAN, Shoot.directionType.HOST_DIR),
+					new BezierPath(80, new float[][] {{44, 10}, {0, 10}}, BezierPath.angleBehavior.FACE_PLAYER),
+					new Shoot(Shoot.bulletType.TRIPLET, Shoot.directionType.HOST_DIR),
+					new BezierPath(80, new float[][] {{0, 10}, {44, 10}}, BezierPath.angleBehavior.FACE_PLAYER),
+					new Shoot(Shoot.bulletType.FAN, Shoot.directionType.HOST_DIR),
+					new BezierPath(80, new float[][] {{44, 10}, {108, 10}}, BezierPath.angleBehavior.FACE_PLAYER),
+					new Shoot(Shoot.bulletType.TRIPLET, Shoot.directionType.HOST_DIR),
+					new BezierPath(80, new float[][] {{108, 10}, {172, 10}}, BezierPath.angleBehavior.FACE_PLAYER),
+					new Shoot(Shoot.bulletType.FAN, Shoot.directionType.HOST_DIR),
+					new BezierPath(80, new float[][] {{172, 10}, {216, 10}}, BezierPath.angleBehavior.FACE_PLAYER),
+					new Shoot(Shoot.bulletType.TRIPLET, Shoot.directionType.HOST_DIR),
+					new BezierPath(80, new float[][] {{216, 10}, {172, 10}}, BezierPath.angleBehavior.FACE_PLAYER),
+					new Shoot(Shoot.bulletType.FAN, Shoot.directionType.HOST_DIR),
+					new BezierPath(80, new float[][] {{172, 10}, {108, 10}}, BezierPath.angleBehavior.FACE_PLAYER),
+					new Shoot(Shoot.bulletType.FAN, Shoot.directionType.HOST_DIR),
+					new Idle(20, Idle.angleBehavior.FACE_PLAYER),
 					new Shoot(Shoot.bulletType.TRIPLET, Shoot.directionType.HOST_DIR),
 //					new Idle(60, Idle.angleBehavior.FACE_CONSTANT),
 					new Loop(1, 3)});

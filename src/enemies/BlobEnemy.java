@@ -60,6 +60,7 @@ public class BlobEnemy extends Enemy{
 		if (--health <= 0) {
 			Globals.level.addScore(score);
 			Globals.level.queueRemoveEntity(this);
+			Globals.createManagedSfx("/sfx/Aberration - Track 10 (enemy death).wav", 10);
 			for (int i = 0; i < 5; i++) {
 				Globals.level.queueAddEntity(new FadeBlob(
 						x + Globals.rand.nextInt(width), 

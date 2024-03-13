@@ -23,6 +23,10 @@ public abstract class Enemy extends Entity{
 	
 	@Override
 	public void tick() {
+		if (currentDirective >= directives.length) {
+			System.out.println("why is this happening?");
+			return;
+		}
 		directives[currentDirective].tick(this);
 		if (directives[currentDirective].complete() && !resetSkip) {
 			currentDirective++;

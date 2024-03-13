@@ -39,13 +39,16 @@ public class MainMenu implements Interrupt{
 		if (Globals.inp.getFresh("up") && Globals.inp.getPressed("up")) {
 			Globals.inp.setFresh("up", false);
 			index = (index + menuSize - 1) % menuSize;
+			Globals.createManagedSfx("/sfx/Aberration - Track 04 (item change).wav", 10);
 		}
 		if (Globals.inp.getFresh("down") && Globals.inp.getPressed("down")) {
 			Globals.inp.setFresh("down", false);
 			index = (index + menuSize + 1) % menuSize;
+			Globals.createManagedSfx("/sfx/Aberration - Track 04 (item change).wav", 10);
 		}
 		if (Globals.inp.getFresh("attack") && Globals.inp.getPressed("attack")) {
 			Globals.inp.setFresh("attack", false);
+			Globals.createManagedSfx("/sfx/Aberration - Track 05 (item select).wav", 10);
 			switch(index) {
 			case 0:
 				interrupt = new FadeOut(60);

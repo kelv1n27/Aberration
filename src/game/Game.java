@@ -10,7 +10,7 @@ public class Game {
 	private Interrupt interrupt;
 	private boolean startGame = false;
 	
-	private boolean skipMainMenu = true;
+	private boolean skipMainMenu = false;
 	
 	public static void main(String[] args) {
 		Game game = new Game();
