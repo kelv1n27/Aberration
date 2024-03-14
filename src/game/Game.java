@@ -1,5 +1,11 @@
 package game;
 
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+
 import interrupts.Interrupt;
 import interrupts.MainMenu;
 
@@ -19,7 +25,8 @@ public class Game {
 	
 	public Game() {
 		globals = new Globals(this);
-		Globals.wnd.updateWindow();
+//		Globals.wnd.updateWindow();
+		Globals.wnd.setWindowTitle("Aberrant Defense");
 		if (!skipMainMenu)
 			interrupt = new MainMenu();
 		else {
@@ -43,7 +50,7 @@ public class Game {
 			}
 			if (System.nanoTime() - lastSec >= 1000000000) {
 				lastSec = System.nanoTime();
-				Globals.wnd.setWindowTitle("" + numTicks);
+//				Globals.wnd.setWindowTitle("" + numTicks);
 				numTicks = 0;
 			}
 		}

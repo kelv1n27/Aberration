@@ -11,7 +11,7 @@ public class BigMouthEnemy extends BigBlobEnemy{
 	private int mouth = Globals.gfx.loadMemory(Globals.gfx.buildMemoryObject("IntArrayImage", new Object[]{"/sprites/big mouth.png"}));
 
 	public BigMouthEnemy(float x, float y, Directive[] directives) {
-		super(x, y, 20, 3000, directives);
+		super(x, y, 40, 1500, directives);
 	}
 	
 	@Override
@@ -47,7 +47,7 @@ public class BigMouthEnemy extends BigBlobEnemy{
 						1f + (Globals.rand.nextFloat() * 1f)));
 			}
 			for (int i = 0; i < 6; i++)
-				Globals.level.queueAddEntity(new BlobEnemy(x + 20, y + 20, new Directive[] {
+				Globals.level.queueAddEntity(new BlobEnemy(x + 20, y + 20, 5, 0, new Directive[] {
 					new Idle(1, Idle.angleBehavior.FACE_CUSTOM, (6.14f/6) * i),
 					new StraightMove(15, 1f, StraightMove.angleBehavior.MOVE_HOST_DIR),
 					new StraightMove(10, .5f, StraightMove.angleBehavior.MOVE_HOST_DIR),

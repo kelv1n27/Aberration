@@ -51,6 +51,16 @@ public abstract class Enemy extends Entity{
 //		health = initialHealth;
 	}
 	
+	public void resetDirectives(Directive looper) {
+		for(int i = 0; i < directives.length; i++) {
+			if (directives[i] != looper) directives[i].reset();
+			else {
+				return;
+				
+			}
+		}
+	}
+	
 	public void setDirective(int index) {
 		currentDirective = index;
 		resetSkip = true;

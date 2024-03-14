@@ -21,6 +21,8 @@ public class BossSplat implements Interrupt{
 	
 	boolean phase = false;
 	
+	boolean entitiesdeleted = false;
+	
 	public BossSplat(float x, float y) {
 		Globals.bgm.addProcessor(vol);
 		this.x = x;
@@ -29,6 +31,10 @@ public class BossSplat implements Interrupt{
 
 	@Override
 	public void tick() {
+		if (!entitiesdeleted) {
+			entitiesdeleted = true;
+			Globals.level.flushEntities();
+		}
 		if (!phase)
 			timer--;
 		else

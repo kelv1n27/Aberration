@@ -9,10 +9,10 @@ public class BigBlobEnemy extends Enemy{
 
 	private BounceBlob[] blobs;
 	protected int ticks = 0;
-	protected int score = 2000;
+	protected int score = 1000;
 	
 	public BigBlobEnemy(float x, float y, Directive[] directives) {
-		super(x, y, 40, 40, 15, directives);
+		super(x, y, 40, 40, 25, directives);
 		initBlobs();
 	}
 	

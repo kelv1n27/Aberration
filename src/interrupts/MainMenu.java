@@ -15,9 +15,13 @@ public class MainMenu implements Interrupt{
 	
 	private SampleProcessor bgm = new SampleProcessor("/sfx/Aberration - Track 01 (Title Screen).wav");
 	
+	private int titlescreen = Globals.gfx.loadMemory(Globals.gfx.buildMemoryObject("IntArrayImage", new Object[]{"/sprites/title screen.png"}));
+	private int cardColor = Globals.gfx.loadMemory(Globals.gfx.buildMemoryObject("IntArrayImage", new Object[]{"/sprites/title screen card.png"}));
+	
 	public MainMenu() {
 		Globals.bgm.addProcessor(bgm, 0);
 		bgm.togglePause(false);
+//		Globals.gfx.runPlugin("FillColor", new Object[] {cardColor, 0xff000000});
 	}
 
 	@Override
@@ -69,13 +73,17 @@ public class MainMenu implements Interrupt{
 		
 		Globals.gfx.runPlugin("FillColor", new Object[] {Globals.mainCanvas, 0xff000000});
 		
-		Globals.gfx.runPlugin("RenderFont", new Object[] {Globals.mainCanvas, Globals.font, 16, 0, 2f, "Main Menu"});
+		Globals.gfx.runPlugin("Render", new Object[] {Globals.mainCanvas, titlescreen, 0, 0, 0, 0, 256, 240, 1f, 1f, false, false, 1f});
+		Globals.gfx.runPlugin("Render", new Object[] {Globals.mainCanvas, cardColor, 0, 0, 0, 0, 256, 240, 1f, 1f, false, false, 1f});
 		
-		Globals.gfx.runPlugin("RenderFont", new Object[] {Globals.mainCanvas, Globals.font, 16, 32, 1f, "play"});
-		Globals.gfx.runPlugin("RenderFont", new Object[] {Globals.mainCanvas, Globals.font, 16, 48, 1f, "options"});
-		Globals.gfx.runPlugin("RenderFont", new Object[] {Globals.mainCanvas, Globals.font, 16, 64, 1f, "quit"});
+		Globals.gfx.runPlugin("RenderFont", new Object[] {Globals.mainCanvas, Globals.font, 16, 0, 2f, "aberrant"});
+		Globals.gfx.runPlugin("RenderFont", new Object[] {Globals.mainCanvas, Globals.font, 16, 20, 2f, "defense"});
 		
-		Globals.gfx.runPlugin("RenderFont", new Object[] {Globals.mainCanvas, Globals.font, 8, 32 + (16 * index), 1f, ">"});
+		Globals.gfx.runPlugin("RenderFont", new Object[] {Globals.mainCanvas, Globals.font, 16, 52, 1f, "play"});
+		Globals.gfx.runPlugin("RenderFont", new Object[] {Globals.mainCanvas, Globals.font, 16, 68, 1f, "options"});
+		Globals.gfx.runPlugin("RenderFont", new Object[] {Globals.mainCanvas, Globals.font, 16, 84, 1f, "quit"});
+		
+		Globals.gfx.runPlugin("RenderFont", new Object[] {Globals.mainCanvas, Globals.font, 8, 52 + (16 * index), 1f, ">"});
 		
 		if (interrupt != null) {
 			interrupt.render();
@@ -91,6 +99,8 @@ public class MainMenu implements Interrupt{
 	public void release() {
 		bgm.dispose();
 		Globals.bgm.removeProcessor(bgm);
+		Globals.gfx.releaseMemory(titlescreen);
+		Globals.gfx.releaseMemory(cardColor);
 	}
 
 }

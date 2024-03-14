@@ -5,10 +5,14 @@ import java.util.ArrayList;
 import audioHandlerV2_Processors.SampleProcessor;
 import directives.BezierPath;
 import directives.Directive;
+import directives.HoundPlayer;
 import directives.Idle;
 import directives.Loop;
 import directives.Shoot;
+import enemies.Annihilator;
+import enemies.BigBlobEnemy;
 import enemies.BigEyeEnemy;
+import enemies.BigMouthEnemy;
 import enemies.BlobEnemy;
 import enemies.Enemy;
 import entities.Entity;
@@ -34,12 +38,13 @@ public class Level implements Interrupt{
 	private ArrayList<Entity> entityRemoveQueue = new ArrayList<Entity>();
 	private Player player = new Player(120, 150);
 	
-	private int score = 0, loop = 2;
+	private int score = 0, loop = 0;
 	
 	private EventList events = new EventList();
-	private int eventTimer = 5900;
+	private int eventTimer = 0;
 	
 	private int landscape = Globals.gfx.loadMemory(Globals.gfx.buildMemoryObject("IntArrayImage", new Object[]{"/sprites/landscape.png"}));
+	private int landscapewater = Globals.gfx.loadMemory(Globals.gfx.buildMemoryObject("IntArrayImage", new Object[]{"/sprites/landscape water.png"}));
 	
 	private Enemy boss;
 	private int bossTimer = 0;
@@ -49,7 +54,12 @@ public class Level implements Interrupt{
 	
 	private int lastLife = 0;
 	
+	private int lastInvade = 0;
+	
+	private int waves;
+	
 	public Level() {
+		waves = Globals.gfx.loadMemory(Globals.gfx.buildMemoryObject("IntArrayImage", new Object[] {256, 240}));
 		Globals.bgm.addProcessor(bgm, 0);
 		bgm.togglePause(false);
 		Globals.bgm.addProcessor(bossbgm, 0);
@@ -81,6 +91,21 @@ public class Level implements Interrupt{
 		if (eventTimer == 13200) eventTimer = 0;
 		events.checkEvents(eventTimer++);
 		
+		//random invaders
+		if (loop > 0 && boss == null && lastInvade-- < 0) {
+			//random chance for invade to occur
+			if (Globals.rand.nextFloat() * 15 < loop) {
+				float direction = (Globals.rand.nextFloat() * -3.14f);
+				if (loop < 5) entities.add(new BlobEnemy(((float)Math.cos(direction) * 200) + 128, ((float)Math.sin(direction) * 200) + 120, new Directive[] {new HoundPlayer(.75f)}));
+				else if (loop < 8) entities.add(new BigBlobEnemy(((float)Math.cos(direction) * 200) + 128, ((float)Math.sin(direction) * 200) + 120, new Directive[] {new HoundPlayer(.5f)}));
+				else {
+					if (Globals.rand.nextFloat() * 10 < 5) entities.add(new BigBlobEnemy(((float)Math.cos(direction) * 200) + 128, ((float)Math.sin(direction) * 200) + 120, new Directive[] {new HoundPlayer(.5f)}));
+					else entities.add(new BigMouthEnemy(((float)Math.cos(direction) * 200) + 128, ((float)Math.sin(direction) * 200) + 120, new Directive[] {new HoundPlayer(.5f)}));
+				}
+			}
+			lastInvade = Math.max(1200 - (60 * loop), 300);
+		}
+		
 		for (Entity e : entities) {
 			e.tick();
 		}
@@ -106,6 +131,10 @@ public class Level implements Interrupt{
 		//render the level
 		Globals.gfx.runPlugin("FillColor", new Object[] {Globals.mainCanvas, 0xffff0000});
 		
+		Globals.gfx.runPlugin("Render", new Object[] {Globals.mainCanvas, landscapewater, 0, 0, 0, 13244 - (eventTimer >> 2), 256, 240, 1f, 1f, false, false, 1f});
+		Globals.gfx.runPlugin("SumOfSines", new Object[] {waves, 5, .5f, 50f, .8f, .2f, eventTimer >> 3, eventTimer >> 2});
+    	Globals.gfx.runPlugin("HeightMapColorize", new Object[] {waves, waves, 200, new int[] {0xff5256fa, 0xffffffff, 0xff5256fa, 0xff4fafff}});
+		Globals.gfx.runPlugin("Render", new Object[] {Globals.mainCanvas, waves, 0, 0, 0, 0, 256, 240, 1f, 1f, false, true, .1f});
 		Globals.gfx.runPlugin("Render", new Object[] {Globals.mainCanvas, landscape, 0, 0, 0, 13244 - (eventTimer >> 2), 256, 240, 1f, 1f, false, false, 1f});
 		
 		//render all entities
@@ -134,10 +163,10 @@ public class Level implements Interrupt{
 		}
 		
 		//debug
-		for (Entity e : entities) {
-			e.renderOutline(0xff00ff00);
-		}
-		player.renderOutline(0xff0000ff);
+//		for (Entity e : entities) {
+//			e.renderOutline(0xff00ff00);
+//		}
+//		player.renderOutline(0xff0000ff);
 		
 		//render interrupt
 		if (concurrentInterrupt != null) {
@@ -155,7 +184,9 @@ public class Level implements Interrupt{
 
 	@Override
 	public void release() {
+		Globals.gfx.releaseMemory(waves);
 		Globals.gfx.releaseMemory(landscape);
+		Globals.gfx.releaseMemory(landscapewater);
 		player.release();
 		for (Entity e : entities) {
 			e.release();
@@ -177,7 +208,7 @@ public class Level implements Interrupt{
 	public void queueRemoveEntity(Entity e) {
 		entityRemoveQueue.add(e);
 		if (boss != null & e.equals(boss)) {
-			concurrentInterrupt = new BossSplat(e.getX(), e.getY());
+			concurrentInterrupt = new BossSplat(e.getX() + (e.getWidth() >> 1), e.getY());
 			boss = null;
 		}
 	}
@@ -230,7 +261,10 @@ public class Level implements Interrupt{
 		}
 		entityAddQueue.clear();
 		entityRemoveQueue.clear();
-		
+		if (concurrentInterrupt != null)
+			concurrentInterrupt.release();
+		concurrentInterrupt = null;
+		lastLife = 0;
 	}
 	
 	public void loopReset() {
@@ -256,6 +290,7 @@ public class Level implements Interrupt{
 		entityAddQueue.clear();
 		entityRemoveQueue.clear();
 		loop++;
+		lastInvade = 1200;
 	}
 
 	public void startBossIntro() {
@@ -363,12 +398,18 @@ public class Level implements Interrupt{
 					new Loop(1, 3)});
 			break;
 		default:
-			newBoss = new BlobEnemy(-10, -10, new Directive[] {});
+			newBoss = new Annihilator(0, -50, 100 + (50 * (loop - 3)));
 			break;
 		}
 		
 		entities.add(newBoss);
 		boss = newBoss;
+	}
+
+	public void flushEntities() {
+		for (Entity e : entities) {
+			entityRemoveQueue.add(e);
+		}
 	}
 
 }

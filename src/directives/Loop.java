@@ -13,9 +13,11 @@ public class Loop implements Directive {
 
 	@Override
 	public void tick(Enemy host) {
-		host.resetDirectives();
-		host.setDirective(loopPoint);
-		currentIteration++;
+		if (currentIteration < iterations) {
+			host.resetDirectives(this);
+			host.setDirective(loopPoint);
+			currentIteration++;
+		}
 	}
 
 	@Override

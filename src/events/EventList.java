@@ -4,10 +4,14 @@ import java.util.ArrayList;
 
 import directives.BezierPath;
 import directives.Directive;
+import directives.HoundPlayer;
 import directives.Idle;
 import directives.Shoot;
 import directives.Spawn;
 import directives.StraightMove;
+import enemies.BigBlobEnemy;
+import enemies.BigEyeEnemy;
+import enemies.BigMouthEnemy;
 import enemies.BlobEnemy;
 import enemies.EyeEnemy;
 import enemies.MouthEnemy;
@@ -46,13 +50,31 @@ public class EventList {
 		
 		events.add(new SpawnEvent(450, new EyeEnemy(-50, 0, new Directive[] {new BezierPath(120, new float[][] {{250, 0}, {176, 60}}, BezierPath.angleBehavior.FACE_PLAYER), new Idle(60, Idle.angleBehavior.FACE_PLAYER), new Shoot(Shoot.bulletType.NORMAL, Shoot.directionType.HOST_DIR), new BezierPath(120, new float[][] {{176, 60}, {250, 0}}, BezierPath.angleBehavior.FACE_PATH)})));
 		events.add(new SpawnEvent(450, new EyeEnemy(-50, 0, new Directive[] {new BezierPath(120, new float[][] {{-10, 0}, {64, 60}}, BezierPath.angleBehavior.FACE_PLAYER), new Idle(60, Idle.angleBehavior.FACE_PLAYER), new Shoot(Shoot.bulletType.NORMAL, Shoot.directionType.HOST_DIR), new BezierPath(120, new float[][] {{64, 60}, {-10, 0}}, BezierPath.angleBehavior.FACE_PATH)})));
+		events.add(new ConditionalSpawnEvent(450, getLoopConditional(0), new EyeEnemy(-50, 0, new Directive[] {new BezierPath(120, new float[][] {{-10, 260}, {64, 190}}, BezierPath.angleBehavior.FACE_PLAYER), new Idle(60, Idle.angleBehavior.FACE_PLAYER), new Shoot(Shoot.bulletType.NORMAL, Shoot.directionType.HOST_DIR), new BezierPath(120, new float[][] {{64, 210}, {-10, 260}}, BezierPath.angleBehavior.FACE_PATH)})));
+		events.add(new ConditionalSpawnEvent(450, getLoopConditional(0), new EyeEnemy(-50, 0, new Directive[] {new BezierPath(120, new float[][] {{250, 260}, {176, 190}}, BezierPath.angleBehavior.FACE_PLAYER), new Idle(60, Idle.angleBehavior.FACE_PLAYER), new Shoot(Shoot.bulletType.NORMAL, Shoot.directionType.HOST_DIR), new BezierPath(120, new float[][] {{176, 190}, {250, 260}}, BezierPath.angleBehavior.FACE_PATH)})));
+		events.add(new ConditionalSpawnEvent(450, getLoopConditional(2), new EyeEnemy(-50, 0, new Directive[] {new BezierPath(120, new float[][] {{118, 260}, {118, 210}}, BezierPath.angleBehavior.FACE_PLAYER), new Idle(60, Idle.angleBehavior.FACE_PLAYER), new Shoot(Shoot.bulletType.NORMAL, Shoot.directionType.HOST_DIR), new BezierPath(120, new float[][] {{118, 190}, {118, 260}}, BezierPath.angleBehavior.FACE_PATH)})));
+		events.add(new ConditionalSpawnEvent(450, getLoopConditional(2), new EyeEnemy(-50, 0, new Directive[] {new BezierPath(120, new float[][] {{118, 0}, {118, 30}}, BezierPath.angleBehavior.FACE_PLAYER), new Idle(60, Idle.angleBehavior.FACE_PLAYER), new Shoot(Shoot.bulletType.NORMAL, Shoot.directionType.HOST_DIR), new BezierPath(120, new float[][] {{118, 30}, {-10, 0}}, BezierPath.angleBehavior.FACE_PATH)})));
 		
 		events.add(new SpawnEvent(700, new BlobEnemy(-50, 0, new Directive[] {new BezierPath(120, new float[][] {{128, -20}, {128, 20}}, BezierPath.angleBehavior.FACE_PLAYER), new StraightMove(250, 1f, StraightMove.angleBehavior.MOVE_HOST_DIR)})));
+		events.add(new ConditionalSpawnEvent(730, getLoopConditional(1), new EyeEnemy(-50, 0, new Directive[] {new BezierPath(60, new float[][] {{-20, -20}, {20, 20}}, BezierPath.angleBehavior.FACE_PLAYER), new Idle(60, Idle.angleBehavior.FACE_PLAYER), new Shoot(Shoot.bulletType.TRIPLET, Shoot.directionType.HOST_DIR), new BezierPath(60, new float[][] {{20, 20}, {-20, -20}}, BezierPath.angleBehavior.FACE_PATH)})));
+		events.add(new ConditionalSpawnEvent(730, getLoopConditional(1), new EyeEnemy(-50, 0, new Directive[] {new BezierPath(60, new float[][] {{276, 260}, {236, 220}}, BezierPath.angleBehavior.FACE_PLAYER), new Idle(60, Idle.angleBehavior.FACE_PLAYER), new Shoot(Shoot.bulletType.TRIPLET, Shoot.directionType.HOST_DIR), new BezierPath(60, new float[][] {{236, 220}, {276, 260}}, BezierPath.angleBehavior.FACE_PATH)})));
 		events.add(new ConditionalSpawnEvent(760, getLoopConditional(0), new BlobEnemy(-50, 0, new Directive[] {new BezierPath(120, new float[][] {{128, 256}, {128, 226}}, BezierPath.angleBehavior.FACE_PLAYER), new StraightMove(250, 1f, StraightMove.angleBehavior.MOVE_HOST_DIR)})));
+		events.add(new ConditionalSpawnEvent(790, getLoopConditional(2), new EyeEnemy(-50, 0, new Directive[] {new BezierPath(60, new float[][] {{-20, 260}, {20, 220}}, BezierPath.angleBehavior.FACE_PLAYER), new Idle(60, Idle.angleBehavior.FACE_PLAYER), new Shoot(Shoot.bulletType.TRIPLET, Shoot.directionType.HOST_DIR), new BezierPath(60, new float[][] {{20, 220}, {-20, 260}}, BezierPath.angleBehavior.FACE_PATH)})));
+		events.add(new ConditionalSpawnEvent(790, getLoopConditional(2), new EyeEnemy(-50, 0, new Directive[] {new BezierPath(60, new float[][] {{276, -20}, {236, 20}}, BezierPath.angleBehavior.FACE_PLAYER), new Idle(60, Idle.angleBehavior.FACE_PLAYER), new Shoot(Shoot.bulletType.TRIPLET, Shoot.directionType.HOST_DIR), new BezierPath(60, new float[][] {{236, 20}, {276, -0}}, BezierPath.angleBehavior.FACE_PATH)})));
 		
 		events.add(new SpawnEvent(900, new BlobEnemy(-50, 0, new Directive[] {new BezierPath(160, new float[][] {{-10, 0}, {128, 60}, {280, 50}}, BezierPath.angleBehavior.FACE_CONSTANT), new Idle(200, Idle.angleBehavior.FACE_CONSTANT)})));
 		events.add(new SpawnEvent(1000, new BlobEnemy(-50, 0, new Directive[] {new BezierPath(160, new float[][] {{290, 0}, {128, 60}, {-10, 50}}, BezierPath.angleBehavior.FACE_CONSTANT)})));
 		
+		events.add(new ConditionalSpawnEvent(1100, getLoopConditional(3), new MouthEnemy(-50, 0, new Directive[] {
+				new BezierPath(80, new float[][] {{-10, 10}, {40, 30}}, BezierPath.angleBehavior.FACE_CONSTANT),
+				new Spawn(new EyeEnemy(40, 30, new Directive[] {new Idle(60, Idle.angleBehavior.FACE_PLAYER), new Shoot(Shoot.bulletType.TRIPLET, Shoot.directionType.HOST_DIR), new StraightMove(50, 1, StraightMove.angleBehavior.MOVE_CUSTOM_DIR, 4.71f)})),
+				new BezierPath(80, new float[][] {{40, 30}, {100, 50}}, BezierPath.angleBehavior.FACE_CONSTANT),
+				new Spawn(new EyeEnemy(100, 50, new Directive[] {new Idle(60, Idle.angleBehavior.FACE_PLAYER), new Shoot(Shoot.bulletType.TRIPLET, Shoot.directionType.HOST_DIR), new StraightMove(50, 1, StraightMove.angleBehavior.MOVE_CUSTOM_DIR, 4.71f)})),
+				new BezierPath(80, new float[][] {{100, 50}, {170, 10}}, BezierPath.angleBehavior.FACE_CONSTANT),
+				new Spawn(new EyeEnemy(170, 10, new Directive[] {new Idle(60, Idle.angleBehavior.FACE_PLAYER), new Shoot(Shoot.bulletType.TRIPLET, Shoot.directionType.HOST_DIR), new StraightMove(50, 1, StraightMove.angleBehavior.MOVE_CUSTOM_DIR, 4.71f)})),
+				new BezierPath(80, new float[][] {{170, 10}, {210, -20}}, BezierPath.angleBehavior.FACE_CONSTANT),
+		})));
+		events.add(new ConditionalSpawnEvent(1100, getLoopConditional(4), new BigBlobEnemy(128, -40, new Directive[] {new HoundPlayer(.5f)})));
 		events.add(new SpawnEvent(1100, new BlobEnemy(-50, 0, new Directive[] {new BezierPath(240, new float[][] {{-10, 200}, {260, 200}}, BezierPath.angleBehavior.FACE_CONSTANT)})));
 		events.add(new SpawnEvent(1150, new BlobEnemy(-50, 0, new Directive[] {new BezierPath(240, new float[][] {{260, 20}, {-10, 20}}, BezierPath.angleBehavior.FACE_CONSTANT)})));
 		events.add(new SpawnEvent(1200, new BlobEnemy(-50, 0, new Directive[] {new BezierPath(240, new float[][] {{-10, 120}, {260, 120}}, BezierPath.angleBehavior.FACE_CONSTANT)})));
@@ -64,6 +86,7 @@ public class EventList {
 		events.add(new SpawnEvent(1350, new BlobEnemy(-50, 0, new Directive[] {new BezierPath(240, new float[][] {{260, 210}, {-10, 210}}, BezierPath.angleBehavior.FACE_CONSTANT)})));
 		events.add(new SpawnEvent(1400, new BlobEnemy(-50, 0, new Directive[] {new BezierPath(240, new float[][] {{-10, 40}, {260, 40}}, BezierPath.angleBehavior.FACE_CONSTANT)})));
 		events.add(new SpawnEvent(1450, new BlobEnemy(-50, 0, new Directive[] {new BezierPath(240, new float[][] {{260, 190}, {-10, 190}}, BezierPath.angleBehavior.FACE_CONSTANT)})));
+		
 		
 		events.add(new SpawnEvent(1500, new EyeEnemy(-50, 0, new Directive[] {new BezierPath(160, new float[][] {{260, 260}, {220, 260}, {220, 120}}, BezierPath.angleBehavior.FACE_PLAYER), new Shoot(Shoot.bulletType.NORMAL, Shoot.directionType.HOST_DIR), new BezierPath(160, new float[][] {{220, 120}, {220, -20}, {260, -20}}, BezierPath.angleBehavior.FACE_PATH)})));
 		events.add(new SpawnEvent(1500, new EyeEnemy(-50, 0, new Directive[] {new BezierPath(160, new float[][] {{-20, -20}, {30, -20}, {30, 120}}, BezierPath.angleBehavior.FACE_PLAYER), new Shoot(Shoot.bulletType.NORMAL, Shoot.directionType.HOST_DIR), new BezierPath(160, new float[][] {{30, 120}, {30, 250}, {-20, 250}}, BezierPath.angleBehavior.FACE_PATH)})));
@@ -79,14 +102,19 @@ public class EventList {
 		events.add(new ConditionalSpawnEvent(1800, getLoopConditional(0), new BlobEnemy(-50, 0, new Directive[] {new BezierPath(90, new float[][] {{128, -20}, {128, 20}}, BezierPath.angleBehavior.FACE_PLAYER), new StraightMove(250, 1.5f, StraightMove.angleBehavior.MOVE_HOST_DIR)})));
 		events.add(new ConditionalSpawnEvent(1800, getLoopConditional(0), new BlobEnemy(-50, 0, new Directive[] {new BezierPath(90, new float[][] {{128, 260}, {128, 230}}, BezierPath.angleBehavior.FACE_PLAYER), new StraightMove(250, 1.5f, StraightMove.angleBehavior.MOVE_HOST_DIR)})));
 		
+		events.add(new ConditionalSpawnEvent(2000, getLoopConditional(6), new BigMouthEnemy(128, -40, new Directive[] {new HoundPlayer(.5f)})));
 		events.add(new SpawnEvent(2000, new BlobEnemy(-50, 0, new Directive[] {new BezierPath(160, new float[][] {{-10, 0}, {128, 60}, {280, 50}}, BezierPath.angleBehavior.FACE_CONSTANT), new Idle(200, Idle.angleBehavior.FACE_CONSTANT)})));
 		events.add(new SpawnEvent(2000, new BlobEnemy(-50, 0, new Directive[] {new BezierPath(160, new float[][] {{-10, 0}, {128, 120}, {280, 100}}, BezierPath.angleBehavior.FACE_CONSTANT), new Idle(200, Idle.angleBehavior.FACE_CONSTANT)})));
+		events.add(new ConditionalSpawnEvent(2010, getLoopConditional(2), new EyeEnemy(-50, 0, new Directive[] {new BezierPath(60, new float[][] {{260, 260}, {210, 210}}, BezierPath.angleBehavior.FACE_PLAYER), new Shoot(Shoot.bulletType.NORMAL, Shoot.directionType.HOST_DIR), new BezierPath(120, new float[][] {{210, 210}, {20, 210}}, BezierPath.angleBehavior.FACE_PLAYER) , new Shoot(Shoot.bulletType.NORMAL, Shoot.directionType.HOST_DIR), new BezierPath(60, new float[][] {{20, 210}, {-20, 260}}, BezierPath.angleBehavior.FACE_PLAYER) })));
+		events.add(new ConditionalSpawnEvent(2010, getLoopConditional(2), new EyeEnemy(-50, 0, new Directive[] {new BezierPath(60, new float[][] {{-20, -20}, {20, 20}}, BezierPath.angleBehavior.FACE_PLAYER), new Shoot(Shoot.bulletType.NORMAL, Shoot.directionType.HOST_DIR), new BezierPath(120, new float[][] {{20, 20}, {210, 20}}, BezierPath.angleBehavior.FACE_PLAYER) , new Shoot(Shoot.bulletType.NORMAL, Shoot.directionType.HOST_DIR), new BezierPath(60, new float[][] {{210, 20}, {260, -20}}, BezierPath.angleBehavior.FACE_PLAYER) })));
 		events.add(new SpawnEvent(2200, new BlobEnemy(-50, 0, new Directive[] {new BezierPath(160, new float[][] {{290, 0}, {128, 120}, {-10, 100}}, BezierPath.angleBehavior.FACE_CONSTANT)})));
 		events.add(new SpawnEvent(2200, new BlobEnemy(-50, 0, new Directive[] {new BezierPath(160, new float[][] {{290, 0}, {128, 60}, {-10, 50}}, BezierPath.angleBehavior.FACE_CONSTANT)})));
-		events.add(new ConditionalSpawnEvent(2210, getLoopConditional(2), new EyeEnemy(-50, 0, new Directive[] {new BezierPath(60, new float[][] {{260, 260}, {210, 210}}, BezierPath.angleBehavior.FACE_PLAYER), new Shoot(Shoot.bulletType.NORMAL, Shoot.directionType.HOST_DIR), new BezierPath(120, new float[][] {{210, 210}, {210, 20}}, BezierPath.angleBehavior.FACE_PLAYER) , new Shoot(Shoot.bulletType.NORMAL, Shoot.directionType.HOST_DIR), new BezierPath(60, new float[][] {{210, 20}, {260, -20}}, BezierPath.angleBehavior.FACE_PLAYER) })));
-		events.add(new ConditionalSpawnEvent(2210, getLoopConditional(2), new EyeEnemy(-50, 0, new Directive[] {new BezierPath(60, new float[][] {{-20, -20}, {20, 20}}, BezierPath.angleBehavior.FACE_PLAYER), new Shoot(Shoot.bulletType.NORMAL, Shoot.directionType.HOST_DIR), new BezierPath(120, new float[][] {{20, 20}, {20, 210}}, BezierPath.angleBehavior.FACE_PLAYER) , new Shoot(Shoot.bulletType.NORMAL, Shoot.directionType.HOST_DIR), new BezierPath(60, new float[][] {{20, 210}, {-20, 260}}, BezierPath.angleBehavior.FACE_PLAYER) })));
+		events.add(new ConditionalSpawnEvent(2210, getLoopConditional(0), new EyeEnemy(-50, 0, new Directive[] {new BezierPath(60, new float[][] {{260, 260}, {210, 210}}, BezierPath.angleBehavior.FACE_PLAYER), new Shoot(Shoot.bulletType.NORMAL, Shoot.directionType.HOST_DIR), new BezierPath(120, new float[][] {{210, 210}, {210, 20}}, BezierPath.angleBehavior.FACE_PLAYER) , new Shoot(Shoot.bulletType.NORMAL, Shoot.directionType.HOST_DIR), new BezierPath(60, new float[][] {{210, 20}, {260, -20}}, BezierPath.angleBehavior.FACE_PLAYER) })));
+		events.add(new ConditionalSpawnEvent(2210, getLoopConditional(0), new EyeEnemy(-50, 0, new Directive[] {new BezierPath(60, new float[][] {{-20, -20}, {20, 20}}, BezierPath.angleBehavior.FACE_PLAYER), new Shoot(Shoot.bulletType.NORMAL, Shoot.directionType.HOST_DIR), new BezierPath(120, new float[][] {{20, 20}, {20, 210}}, BezierPath.angleBehavior.FACE_PLAYER) , new Shoot(Shoot.bulletType.NORMAL, Shoot.directionType.HOST_DIR), new BezierPath(60, new float[][] {{20, 210}, {-20, 260}}, BezierPath.angleBehavior.FACE_PLAYER) })));
 		events.add(new SpawnEvent(2400, new BlobEnemy(-50, 0, new Directive[] {new BezierPath(160, new float[][] {{-10, 260}, {128, 150}, {280, 200}}, BezierPath.angleBehavior.FACE_CONSTANT), new Idle(200, Idle.angleBehavior.FACE_CONSTANT)})));
 		events.add(new SpawnEvent(2400, new BlobEnemy(-50, 0, new Directive[] {new BezierPath(160, new float[][] {{-10, 260}, {128, 100}, {280, 190}}, BezierPath.angleBehavior.FACE_CONSTANT), new Idle(200, Idle.angleBehavior.FACE_CONSTANT)})));
+		events.add(new ConditionalSpawnEvent(2410, getLoopConditional(2), new EyeEnemy(-50, 0, new Directive[] {new BezierPath(60, new float[][] {{260, 260}, {210, 210}}, BezierPath.angleBehavior.FACE_PLAYER), new Shoot(Shoot.bulletType.NORMAL, Shoot.directionType.HOST_DIR), new BezierPath(120, new float[][] {{210, 210}, {20, 210}}, BezierPath.angleBehavior.FACE_PLAYER) , new Shoot(Shoot.bulletType.NORMAL, Shoot.directionType.HOST_DIR), new BezierPath(60, new float[][] {{20, 210}, {-20, 260}}, BezierPath.angleBehavior.FACE_PLAYER) })));
+		events.add(new ConditionalSpawnEvent(2410, getLoopConditional(2), new EyeEnemy(-50, 0, new Directive[] {new BezierPath(60, new float[][] {{-20, -20}, {20, 20}}, BezierPath.angleBehavior.FACE_PLAYER), new Shoot(Shoot.bulletType.NORMAL, Shoot.directionType.HOST_DIR), new BezierPath(120, new float[][] {{20, 20}, {210, 20}}, BezierPath.angleBehavior.FACE_PLAYER) , new Shoot(Shoot.bulletType.NORMAL, Shoot.directionType.HOST_DIR), new BezierPath(60, new float[][] {{210, 20}, {260, -20}}, BezierPath.angleBehavior.FACE_PLAYER) })));
 		events.add(new SpawnEvent(2600, new BlobEnemy(-50, 0, new Directive[] {new BezierPath(160, new float[][] {{290, 260}, {128, 150}, {-10, 200}}, BezierPath.angleBehavior.FACE_CONSTANT)})));
 		events.add(new SpawnEvent(2600, new BlobEnemy(-50, 0, new Directive[] {new BezierPath(160, new float[][] {{290, 260}, {128, 100}, {-10, 190}}, BezierPath.angleBehavior.FACE_CONSTANT)})));
 		
@@ -98,13 +126,19 @@ public class EventList {
 		
 		events.add(new ConditionalSpawnEvent(2800, getLoopConditional(2), new EyeEnemy(-50, 0, new Directive[] {new Idle(1, Idle.angleBehavior.FACE_CUSTOM, 4.51f), new BezierPath(130, new float[][] {{-110, 210}, {90, 190}}, BezierPath.angleBehavior.FACE_CONSTANT), new Shoot(Shoot.bulletType.NORMAL, Shoot.directionType.HOST_DIR), new BezierPath(90, new float[][] {{90, 190}, {260, 160}}, BezierPath.angleBehavior.FACE_CONSTANT) })));
 		events.add(new ConditionalSpawnEvent(2800, getLoopConditional(2), new EyeEnemy(-50, 0, new Directive[] {new Idle(1, Idle.angleBehavior.FACE_CUSTOM, 1.5f), new BezierPath(130, new float[][] {{360, 30}, {160, 60}}, BezierPath.angleBehavior.FACE_CONSTANT), new Shoot(Shoot.bulletType.NORMAL, Shoot.directionType.HOST_DIR), new BezierPath(90, new float[][] {{160, 60}, {-10, 90}}, BezierPath.angleBehavior.FACE_CONSTANT) })));
+//		
+		events.add(new ConditionalSpawnEvent(290, getLoopConditional(0), new EyeEnemy(-50, 0, new Directive[] {new BezierPath(60, new float[][] {{-20, -20}, {20, 20}}, BezierPath.angleBehavior.FACE_PLAYER), new Idle(60, Idle.angleBehavior.FACE_PLAYER), new Shoot(Shoot.bulletType.TRIPLET, Shoot.directionType.HOST_DIR), new BezierPath(60, new float[][] {{20, 20}, {-20, -20}}, BezierPath.angleBehavior.FACE_PATH)})));
+		events.add(new ConditionalSpawnEvent(2950, getLoopConditional(1), new EyeEnemy(-50, 0, new Directive[] {new BezierPath(60, new float[][] {{276, 260}, {236, 220}}, BezierPath.angleBehavior.FACE_PLAYER), new Idle(60, Idle.angleBehavior.FACE_PLAYER), new Shoot(Shoot.bulletType.TRIPLET, Shoot.directionType.HOST_DIR), new BezierPath(60, new float[][] {{236, 220}, {276, 260}}, BezierPath.angleBehavior.FACE_PATH)})));
+//		events.add(new ConditionalSpawnEvent(760, getLoopConditional(0), new BlobEnemy(-50, 0, new Directive[] {new BezierPath(120, new float[][] {{128, 256}, {128, 226}}, BezierPath.angleBehavior.FACE_PLAYER), new StraightMove(250, 1f, StraightMove.angleBehavior.MOVE_HOST_DIR)})));
+		events.add(new ConditionalSpawnEvent(3000, getLoopConditional(2), new EyeEnemy(-50, 0, new Directive[] {new BezierPath(60, new float[][] {{-20, 260}, {20, 220}}, BezierPath.angleBehavior.FACE_PLAYER), new Idle(60, Idle.angleBehavior.FACE_PLAYER), new Shoot(Shoot.bulletType.TRIPLET, Shoot.directionType.HOST_DIR), new BezierPath(60, new float[][] {{20, 220}, {-20, 260}}, BezierPath.angleBehavior.FACE_PATH)})));
+		events.add(new ConditionalSpawnEvent(3050, getLoopConditional(3), new EyeEnemy(-50, 0, new Directive[] {new BezierPath(60, new float[][] {{276, -20}, {236, 20}}, BezierPath.angleBehavior.FACE_PLAYER), new Idle(60, Idle.angleBehavior.FACE_PLAYER), new Shoot(Shoot.bulletType.TRIPLET, Shoot.directionType.HOST_DIR), new BezierPath(60, new float[][] {{236, 20}, {276, -0}}, BezierPath.angleBehavior.FACE_PATH)})));
 		
 		events.add(new SpawnEvent(3200, new EyeEnemy(-50, 0, new Directive[] {new Idle(1, Idle.angleBehavior.FACE_CUSTOM, 4.51f), new BezierPath(130, new float[][] {{260, 210}, {60, 170}}, BezierPath.angleBehavior.FACE_CONSTANT), new Shoot(Shoot.bulletType.NORMAL, Shoot.directionType.HOST_DIR), new BezierPath(50, new float[][] {{60, 170}, {-10, 160}}, BezierPath.angleBehavior.FACE_CONSTANT) })));
 		events.add(new SpawnEvent(3200, new EyeEnemy(-50, 0, new Directive[] {new Idle(1, Idle.angleBehavior.FACE_CUSTOM, 1.5f), new BezierPath(130, new float[][] {{-10, 30}, {190, 80}}, BezierPath.angleBehavior.FACE_CONSTANT), new Shoot(Shoot.bulletType.NORMAL, Shoot.directionType.HOST_DIR), new BezierPath(50, new float[][] {{190, 80}, {260, 90}}, BezierPath.angleBehavior.FACE_CONSTANT) })));
 		
 		events.add(new ConditionalSpawnEvent(3200, getLoopConditional(1), new EyeEnemy(-50, 0, new Directive[] {new Idle(1, Idle.angleBehavior.FACE_CUSTOM, 4.51f), new BezierPath(130, new float[][] {{310, 210}, {110, 180}}, BezierPath.angleBehavior.FACE_CONSTANT), new Shoot(Shoot.bulletType.NORMAL, Shoot.directionType.HOST_DIR), new BezierPath(70, new float[][] {{110, 180}, {-10, 160}}, BezierPath.angleBehavior.FACE_CONSTANT) })));
 		events.add(new ConditionalSpawnEvent(3200, getLoopConditional(1), new EyeEnemy(-50, 0, new Directive[] {new Idle(1, Idle.angleBehavior.FACE_CUSTOM, 1.5f), new BezierPath(130, new float[][] {{-60, 30}, {140, 70}}, BezierPath.angleBehavior.FACE_CONSTANT), new Shoot(Shoot.bulletType.NORMAL, Shoot.directionType.HOST_DIR), new BezierPath(70, new float[][] {{140, 70}, {260, 90}}, BezierPath.angleBehavior.FACE_CONSTANT) })));
-//		
+		
 		events.add(new ConditionalSpawnEvent(3200, getLoopConditional(3), new EyeEnemy(-50, 0, new Directive[] {new Idle(1, Idle.angleBehavior.FACE_CUSTOM, 4.51f), new BezierPath(130, new float[][] {{360, 210}, {160, 190}}, BezierPath.angleBehavior.FACE_CONSTANT), new Shoot(Shoot.bulletType.NORMAL, Shoot.directionType.HOST_DIR), new BezierPath(90, new float[][] {{160, 190}, {-10, 160}}, BezierPath.angleBehavior.FACE_CONSTANT) })));
 		events.add(new ConditionalSpawnEvent(3200, getLoopConditional(3), new EyeEnemy(-50, 0, new Directive[] {new Idle(1, Idle.angleBehavior.FACE_CUSTOM, 1.5f), new BezierPath(130, new float[][] {{-110, 30}, {90, 60}}, BezierPath.angleBehavior.FACE_CONSTANT), new Shoot(Shoot.bulletType.NORMAL, Shoot.directionType.HOST_DIR), new BezierPath(90, new float[][] {{90, 60}, {260, 90}}, BezierPath.angleBehavior.FACE_CONSTANT) })));
 		
@@ -159,7 +193,7 @@ public class EventList {
 				new BezierPath(100, new float[][] {{192, 180}, {260, 250}}, BezierPath.angleBehavior.FACE_CONSTANT)
 				})));
 		
-		events.add(new ConditionalSpawnEvent(4100, getLoopConditional(0), new EyeEnemy(-50, 0, new Directive[] {
+		events.add(new ConditionalSpawnEvent(4100, getLoopConditional(2), new EyeEnemy(-50, 0, new Directive[] {
 				new BezierPath(100, new float[][] {{-10, 170}, {64, 180}}, BezierPath.angleBehavior.FACE_PLAYER),
 				new BezierPath(100, new float[][] {{64, 180}, {128, 160}}, BezierPath.angleBehavior.FACE_PLAYER),
 				new BezierPath(100, new float[][] {{128, 160}, {192, 150}}, BezierPath.angleBehavior.FACE_PLAYER),
@@ -168,17 +202,49 @@ public class EventList {
 		
 		events.add(new SpawnEvent(4500, new BlobEnemy(-50, 0, new Directive[] {new BezierPath(300, new float[][] {{0, 256}, {0, 0}, {256, 0}}, BezierPath.angleBehavior.FACE_CONSTANT)})));
 		events.add(new SpawnEvent(4500, new BlobEnemy(-50, 0, new Directive[] {new BezierPath(300, new float[][] {{256, 256}, {256, 0}, {0, 0}}, BezierPath.angleBehavior.FACE_CONSTANT)})));
+		events.add(new ConditionalSpawnEvent(4500, getLoopConditional(1), new EyeEnemy(-50, 0, new Directive[] {new BezierPath(60, new float[][] {{128, -20}, {128, 20}}, BezierPath.angleBehavior.FACE_PLAYER), new Shoot(Shoot.bulletType.TRIPLET, Shoot.directionType.HOST_DIR), new BezierPath(60, new float[][] {{128, 20}, {128, -20}}, BezierPath.angleBehavior.FACE_PLAYER)})));
+		events.add(new ConditionalSpawnEvent(4700, getLoopConditional(4), new BigEyeEnemy(-50, 0, 100, 1000, new Directive[] {new BezierPath(60, new float[][] {{108, 260}, {108, 220}}, BezierPath.angleBehavior.FACE_PLAYER), new Shoot(Shoot.bulletType.FAN, Shoot.directionType.HOST_DIR), new BezierPath(60, new float[][] {{108, 220}, {108, 260}}, BezierPath.angleBehavior.FACE_PLAYER)})));
 		
 		events.add(new SpawnEvent(4800, new BlobEnemy(-50, 0, new Directive[] {new BezierPath(300, new float[][] {{0, 0}, {0, 256}, {256, 256}}, BezierPath.angleBehavior.FACE_CONSTANT)})));
 		events.add(new SpawnEvent(4800, new BlobEnemy(-50, 0, new Directive[] {new BezierPath(300, new float[][] {{256, 0}, {256, 256}, {0, 256}}, BezierPath.angleBehavior.FACE_CONSTANT)})));
+		events.add(new ConditionalSpawnEvent(4800, getLoopConditional(1), new EyeEnemy(-50, 0, new Directive[] {new BezierPath(60, new float[][] {{128, 260}, {128, 220}}, BezierPath.angleBehavior.FACE_PLAYER), new Shoot(Shoot.bulletType.TRIPLET, Shoot.directionType.HOST_DIR), new BezierPath(60, new float[][] {{128, 220}, {128, 260}}, BezierPath.angleBehavior.FACE_PLAYER)})));
+		events.add(new ConditionalSpawnEvent(5000, getLoopConditional(4), new BigEyeEnemy(-50, 0, 100, 1000, new Directive[] {new BezierPath(60, new float[][] {{108, -40}, {108, 0}}, BezierPath.angleBehavior.FACE_PLAYER), new Shoot(Shoot.bulletType.FAN, Shoot.directionType.HOST_DIR), new BezierPath(60, new float[][] {{108, 0}, {108, -40}}, BezierPath.angleBehavior.FACE_PLAYER)})));
 		
 		events.add(new SpawnEvent(5100, new EyeEnemy(-50, 0, new Directive[] {new BezierPath(100, new float[][] {{-20, -20}, {20, 20}}, BezierPath.angleBehavior.FACE_PATH), new Idle(60, Idle.angleBehavior.FACE_PLAYER), new Shoot(Shoot.bulletType.NORMAL, Shoot.directionType.HOST_DIR), new BezierPath(100, new float[][] {{20, 20}, {-20, -20}}, BezierPath.angleBehavior.FACE_PATH)})));
 		events.add(new SpawnEvent(5100, new EyeEnemy(-50, 0, new Directive[] {new BezierPath(100, new float[][] {{118, -20}, {118, 20}}, BezierPath.angleBehavior.FACE_PATH), new Idle(60, Idle.angleBehavior.FACE_PLAYER), new Shoot(Shoot.bulletType.NORMAL, Shoot.directionType.HOST_DIR), new BezierPath(100, new float[][] {{118, 20}, {118, -20}}, BezierPath.angleBehavior.FACE_PATH)})));
 		events.add(new SpawnEvent(5100, new EyeEnemy(-50, 0, new Directive[] {new BezierPath(100, new float[][] {{260, -20}, {216, 20}}, BezierPath.angleBehavior.FACE_PATH), new Idle(60, Idle.angleBehavior.FACE_PLAYER), new Shoot(Shoot.bulletType.NORMAL, Shoot.directionType.HOST_DIR), new BezierPath(100, new float[][] {{216, 20}, {260, -20}}, BezierPath.angleBehavior.FACE_PATH)})));
 		
+		events.add(new ConditionalSpawnEvent(5150, getLoopConditional(1), new MouthEnemy(-50, 0, new Directive[] {
+				new BezierPath(60, new float[][] {{260, 120}, {226, 120}}, BezierPath.angleBehavior.FACE_CONSTANT),
+				new Spawn(new BlobEnemy(226, 120, 2, 0, new Directive[] {new Idle(1, Idle.angleBehavior.FACE_PLAYER), new StraightMove(200, 1.75f, StraightMove.angleBehavior.MOVE_HOST_DIR)})),
+				new Idle(60, Idle.angleBehavior.FACE_CONSTANT),
+				new Spawn(new BlobEnemy(226, 120, 2, 0, new Directive[] {new Idle(1, Idle.angleBehavior.FACE_PLAYER), new StraightMove(200, 1.75f, StraightMove.angleBehavior.MOVE_HOST_DIR)})),
+				new Idle(60, Idle.angleBehavior.FACE_CONSTANT),
+				new Spawn(new BlobEnemy(226, 120, 2, 0, new Directive[] {new Idle(1, Idle.angleBehavior.FACE_PLAYER), new StraightMove(200, 1.75f, StraightMove.angleBehavior.MOVE_HOST_DIR)})),
+				new Idle(60, Idle.angleBehavior.FACE_CONSTANT),
+				new Spawn(new BlobEnemy(226, 120, 2, 0, new Directive[] {new Idle(1, Idle.angleBehavior.FACE_PLAYER), new StraightMove(200, 1.75f, StraightMove.angleBehavior.MOVE_HOST_DIR)})),
+				new Idle(60, Idle.angleBehavior.FACE_CONSTANT),
+				new Spawn(new BlobEnemy(226, 120, 2, 0, new Directive[] {new Idle(1, Idle.angleBehavior.FACE_PLAYER), new StraightMove(200, 1.75f, StraightMove.angleBehavior.MOVE_HOST_DIR)})),
+				new Idle(60, Idle.angleBehavior.FACE_CONSTANT),
+		})));
+		
 		events.add(new ConditionalSpawnEvent(5200, getLoopConditional(1), new EyeEnemy(-50, 0, new Directive[] {new BezierPath(100, new float[][] {{-20, 260}, {20, 210}}, BezierPath.angleBehavior.FACE_PATH), new Idle(60, Idle.angleBehavior.FACE_PLAYER), new Shoot(Shoot.bulletType.NORMAL, Shoot.directionType.HOST_DIR), new BezierPath(100, new float[][] {{20, 210}, {-20, 260}}, BezierPath.angleBehavior.FACE_PATH)})));
 		events.add(new ConditionalSpawnEvent(5200, getLoopConditional(1), new EyeEnemy(-50, 0, new Directive[] {new BezierPath(100, new float[][] {{118, 260}, {118, 210}}, BezierPath.angleBehavior.FACE_PATH), new Idle(60, Idle.angleBehavior.FACE_PLAYER), new Shoot(Shoot.bulletType.NORMAL, Shoot.directionType.HOST_DIR), new BezierPath(100, new float[][] {{118, 210}, {118, 260}}, BezierPath.angleBehavior.FACE_PATH)})));
 		events.add(new ConditionalSpawnEvent(5200, getLoopConditional(1), new EyeEnemy(-50, 0, new Directive[] {new BezierPath(100, new float[][] {{260, 260}, {216, 210}}, BezierPath.angleBehavior.FACE_PATH), new Idle(60, Idle.angleBehavior.FACE_PLAYER), new Shoot(Shoot.bulletType.NORMAL, Shoot.directionType.HOST_DIR), new BezierPath(100, new float[][] {{216, 210}, {260, 260}}, BezierPath.angleBehavior.FACE_PATH)})));
+		
+		events.add(new ConditionalSpawnEvent(5250, getLoopConditional(2), new MouthEnemy(-50, 0, new Directive[] {
+				new BezierPath(60, new float[][] {{-20, 120}, {20, 120}}, BezierPath.angleBehavior.FACE_CONSTANT),
+				new Spawn(new BlobEnemy(20, 120, 2, 0, new Directive[] {new Idle(1, Idle.angleBehavior.FACE_PLAYER), new StraightMove(200, 1.75f, StraightMove.angleBehavior.MOVE_HOST_DIR)})),
+				new Idle(60, Idle.angleBehavior.FACE_CONSTANT),
+				new Spawn(new BlobEnemy(20, 120, 2, 0, new Directive[] {new Idle(1, Idle.angleBehavior.FACE_PLAYER), new StraightMove(200, 1.75f, StraightMove.angleBehavior.MOVE_HOST_DIR)})),
+				new Idle(60, Idle.angleBehavior.FACE_CONSTANT),
+				new Spawn(new BlobEnemy(20, 120, 2, 0, new Directive[] {new Idle(1, Idle.angleBehavior.FACE_PLAYER), new StraightMove(200, 1.75f, StraightMove.angleBehavior.MOVE_HOST_DIR)})),
+				new Idle(60, Idle.angleBehavior.FACE_CONSTANT),
+				new Spawn(new BlobEnemy(20, 120, 2, 0, new Directive[] {new Idle(1, Idle.angleBehavior.FACE_PLAYER), new StraightMove(200, 1.75f, StraightMove.angleBehavior.MOVE_HOST_DIR)})),
+				new Idle(60, Idle.angleBehavior.FACE_CONSTANT),
+				new Spawn(new BlobEnemy(20, 120, 2, 0, new Directive[] {new Idle(1, Idle.angleBehavior.FACE_PLAYER), new StraightMove(200, 1.75f, StraightMove.angleBehavior.MOVE_HOST_DIR)})),
+				new Idle(60, Idle.angleBehavior.FACE_CONSTANT),
+		})));
 		
 		events.add(new SpawnEvent(5400, new BlobEnemy(-20, -20, new Directive[] {new Idle(1, Idle.angleBehavior.FACE_PLAYER), new StraightMove(250, 1.5f, StraightMove.angleBehavior.MOVE_HOST_DIR)})));
 		events.add(new SpawnEvent(5400, new BlobEnemy(276, -20, new Directive[] {new Idle(1, Idle.angleBehavior.FACE_PLAYER), new StraightMove(250, 1.5f, StraightMove.angleBehavior.MOVE_HOST_DIR)})));
@@ -190,13 +256,13 @@ public class EventList {
 		events.add(new SpawnEvent(5550, new BlobEnemy(128, 260, new Directive[] {new Idle(1, Idle.angleBehavior.FACE_PLAYER), new StraightMove(250, 1.5f, StraightMove.angleBehavior.MOVE_HOST_DIR)})));
 		events.add(new SpawnEvent(5550, new BlobEnemy(-20, 120, new Directive[] {new Idle(1, Idle.angleBehavior.FACE_PLAYER), new StraightMove(250, 1.5f, StraightMove.angleBehavior.MOVE_HOST_DIR)})));
 		
-		events.add(new SpawnEvent(5700, new MouthEnemy(-50, 0, new Directive[] {
+		events.add(new ConditionalSpawnEvent(5700, getLoopConditional(3), new MouthEnemy(-50, 0, new Directive[] {
 				new BezierPath(120, new float[][] {{-20, -20}, {20, 20}}, BezierPath.angleBehavior.FACE_CONSTANT),
-				new Spawn(new BlobEnemy(20, 20, new Directive[] {new Idle(1, Idle.angleBehavior.FACE_PLAYER), new StraightMove(250, 1, StraightMove.angleBehavior.MOVE_HOST_DIR)})),
+				new Spawn(new BlobEnemy(20, 20, 1, 0, new Directive[] {new Idle(1, Idle.angleBehavior.FACE_PLAYER), new StraightMove(250, 1, StraightMove.angleBehavior.MOVE_HOST_DIR)})),
 				new BezierPath(120, new float[][] {{20, 20}, {128, 20}}, BezierPath.angleBehavior.FACE_CONSTANT),
-				new Spawn(new BlobEnemy(128, 20, new Directive[] {new Idle(1, Idle.angleBehavior.FACE_PLAYER), new StraightMove(250, 1, StraightMove.angleBehavior.MOVE_HOST_DIR)})),
+				new Spawn(new BlobEnemy(128, 20, 1, 0, new Directive[] {new Idle(1, Idle.angleBehavior.FACE_PLAYER), new StraightMove(250, 1, StraightMove.angleBehavior.MOVE_HOST_DIR)})),
 				new BezierPath(120, new float[][] {{128, 20}, {236, 20}}, BezierPath.angleBehavior.FACE_CONSTANT),
-				new Spawn(new BlobEnemy(236, 20, new Directive[] {new Idle(1, Idle.angleBehavior.FACE_PLAYER), new StraightMove(250, 1, StraightMove.angleBehavior.MOVE_HOST_DIR)})),
+				new Spawn(new BlobEnemy(236, 20, 1, 0, new Directive[] {new Idle(1, Idle.angleBehavior.FACE_PLAYER), new StraightMove(250, 1, StraightMove.angleBehavior.MOVE_HOST_DIR)})),
 				new BezierPath(120, new float[][] {{236, 20}, {260, -20}}, BezierPath.angleBehavior.FACE_CONSTANT)
 				})));
 		

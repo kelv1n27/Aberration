@@ -39,7 +39,7 @@ public class Globals {
 	
 	public Globals(Game game) {
 		this.game = game;
-		gfx = new GraphicsCardInterface((short)1, getClass().getProtectionDomain().getCodeSource().getLocation().toString(), "/gfxPlugs/");
+		gfx = new GraphicsCardInterface((short)2, getClass().getProtectionDomain().getCodeSource().getLocation().toString(), "/gfxPlugs/");
 //		gfx.initDebugWindow();
 //		gfx.showDebug();
 		mainCanvas = gfx.loadMemory(gfx.buildMemoryObject("IntArrayImage", new Object[] {256, 240}));
@@ -67,7 +67,7 @@ public class Globals {
 	}
 	
 	public static void enemySoS() {
-		gfx.runPlugin("SumOfSines", new Object[] {enemySoS, 4, .99f, 7f, .8f, .1f, tickCount});
+		gfx.runPlugin("SumOfSines", new Object[] {enemySoS, 4, .99f, 7f, .8f, .1f, tickCount, 0});
 		gfx.runPlugin("HeightMapColorize", new Object[] {enemySoS, enemySoS, 130, new int[] {0xffff8b18, 0xff09ff3f, 0xffff18f6, 0xff000000}});
 		gfx.runPlugin("WaterMaskOverlay", new Object[] {mainCanvas, enemySoS, enemyMask});
 		gfx.runPlugin("FillColor", new Object[] {enemyMask, 0});
